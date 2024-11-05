@@ -185,7 +185,7 @@
                             <constraint firstItem="UzL-cr-gss" firstAttribute="leading" secondItem="HrQ-i5-Nyh" secondAttribute="leading" constant="16" id="cco-0d-XoA"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="profile_no_active" id="GSy-7c-lP6"/>
+                    <tabBarItem key="tabBarItem" title="" image="profile_active" id="GSy-7c-lP6"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WZA-PP-qNr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -254,11 +254,11 @@
                         <viewLayoutGuide key="safeArea" id="GPS-hg-kZt"/>
                         <color key="backgroundColor" name="YP Black"/>
                         <constraints>
-                            <constraint firstItem="10z-Ch-Hth" firstAttribute="leading" secondItem="GPS-hg-kZt" secondAttribute="leading" id="4hb-KT-NFd"/>
-                            <constraint firstItem="10z-Ch-Hth" firstAttribute="top" secondItem="GPS-hg-kZt" secondAttribute="top" id="BOX-qM-kr0"/>
-                            <constraint firstItem="10z-Ch-Hth" firstAttribute="bottom" secondItem="GPS-hg-kZt" secondAttribute="bottom" id="Esd-0L-Iur"/>
-                            <constraint firstItem="10z-Ch-Hth" firstAttribute="trailing" secondItem="GPS-hg-kZt" secondAttribute="trailing" id="Ga6-VZ-o3N"/>
+                            <constraint firstItem="10z-Ch-Hth" firstAttribute="leading" secondItem="C4i-cx-YaP" secondAttribute="leading" id="4hb-KT-NFd"/>
+                            <constraint firstItem="10z-Ch-Hth" firstAttribute="bottom" secondItem="C4i-cx-YaP" secondAttribute="bottom" id="Esd-0L-Iur"/>
+                            <constraint firstItem="10z-Ch-Hth" firstAttribute="trailing" secondItem="C4i-cx-YaP" secondAttribute="trailing" id="Ga6-VZ-o3N"/>
                             <constraint firstItem="ABv-Ja-yRX" firstAttribute="top" secondItem="GPS-hg-kZt" secondAttribute="top" constant="9" id="MxW-32-Zke"/>
+                            <constraint firstItem="10z-Ch-Hth" firstAttribute="top" secondItem="C4i-cx-YaP" secondAttribute="top" id="bNr-C4-dhh"/>
                             <constraint firstItem="ABv-Ja-yRX" firstAttribute="leading" secondItem="GPS-hg-kZt" secondAttribute="leading" constant="9" id="g2o-7F-7uJ"/>
                         </constraints>
                     </view>
@@ -279,7 +279,7 @@
         <image name="backward" width="24" height="24"/>
         <image name="exit" width="24" height="24"/>
         <image name="photo" width="70" height="70"/>
-        <image name="profile_no_active" width="30" height="30"/>
+        <image name="profile_active" width="30" height="30"/>
         <image name="tab_editorial_active" width="30" height="30"/>
         <namedColor name="YP Background">
             <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
