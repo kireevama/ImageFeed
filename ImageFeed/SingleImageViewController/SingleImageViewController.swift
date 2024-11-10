@@ -8,23 +8,23 @@
 import UIKit
 
 final class SingleImageViewController: UIViewController {
+    // MARK: - IBOutlets
     @IBOutlet private var singleImageUIView: UIImageView!
     @IBOutlet private var scrollView: UIScrollView!
     
+    // MARK: - Private properties
     var image: UIImage? {
         didSet {
             guard isViewLoaded else { return }
             singleImageUIView.image = image
             
-            //new
             guard let image = image else { return }
-//            singleImageUIView.frame.size = image.size
-            
-            //увеличиваем катинку на весь экран
+            singleImageUIView.frame.size = image.size // new
             rescaleAndCenterImageInScrollView(image: image)
         }
     }
     
+    // MARK: - Override funcs
     override func viewDidLoad() {
         super.viewDidLoad()
         singleImageUIView.image = self.image
@@ -38,10 +38,19 @@ final class SingleImageViewController: UIViewController {
         scrollView.maximumZoomScale = 1.25
     }
     
+    // MARK: - IBActions
     @IBAction func didTapBackButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
+    
+    @IBAction func didTapShareButton(_ sender: Any) {
+        guard let image = image else { return }
+        let share = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        
+        present(share, animated: true, completion: nil)
+    }
 }
+
 
 extension SingleImageViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -49,6 +58,7 @@ extension SingleImageViewController: UIScrollViewDelegate {
     }
 }
 
+// MARK: - Extensions
 extension SingleImageViewController {
     private func rescaleAndCenterImageInScrollView(image: UIImage) {
         let minZoomScale = scrollView.minimumZoomScale

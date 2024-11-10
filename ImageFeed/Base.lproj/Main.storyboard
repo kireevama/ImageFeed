@@ -237,7 +237,7 @@
                                     <outlet property="delegate" destination="GRq-Yl-I2M" id="MHR-ee-saY"/>
                                 </connections>
                             </scrollView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ABv-Ja-yRX">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ABv-Ja-yRX" userLabel="ReturnButton">
                                 <rect key="frame" x="9" y="68" width="24" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="3OO-kn-jBY"/>
@@ -250,6 +250,18 @@
                                     <action selector="didTapBackButton:" destination="GRq-Yl-I2M" eventType="touchUpInside" id="fXL-Ko-fae"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X4p-yU-7Kk" userLabel="ShareButton">
+                                <rect key="frame" x="172" y="751" width="51" height="51"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="51" id="2te-Xm-atu"/>
+                                    <constraint firstAttribute="height" constant="51" id="H4w-xM-dNF"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="sharing"/>
+                                <connections>
+                                    <action selector="didTapShareButton:" destination="GRq-Yl-I2M" eventType="touchUpInside" id="Yuu-tx-19H"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="GPS-hg-kZt"/>
                         <color key="backgroundColor" name="YP Black"/>
@@ -259,7 +271,9 @@
                             <constraint firstItem="10z-Ch-Hth" firstAttribute="trailing" secondItem="C4i-cx-YaP" secondAttribute="trailing" id="Ga6-VZ-o3N"/>
                             <constraint firstItem="ABv-Ja-yRX" firstAttribute="top" secondItem="GPS-hg-kZt" secondAttribute="top" constant="9" id="MxW-32-Zke"/>
                             <constraint firstItem="10z-Ch-Hth" firstAttribute="top" secondItem="C4i-cx-YaP" secondAttribute="top" id="bNr-C4-dhh"/>
+                            <constraint firstItem="X4p-yU-7Kk" firstAttribute="centerX" secondItem="C4i-cx-YaP" secondAttribute="centerX" constant="1" id="chv-VW-3Ze"/>
                             <constraint firstItem="ABv-Ja-yRX" firstAttribute="leading" secondItem="GPS-hg-kZt" secondAttribute="leading" constant="9" id="g2o-7F-7uJ"/>
+                            <constraint firstItem="GPS-hg-kZt" firstAttribute="bottom" secondItem="X4p-yU-7Kk" secondAttribute="bottom" constant="16" id="qvv-Mw-Gsx"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Lbf-UP-KeZ"/>
@@ -280,6 +294,7 @@
         <image name="exit" width="24" height="24"/>
         <image name="photo" width="70" height="70"/>
         <image name="profile_active" width="30" height="30"/>
+        <image name="sharing" width="51" height="51"/>
         <image name="tab_editorial_active" width="30" height="30"/>
         <namedColor name="YP Background">
             <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
