@@ -29,7 +29,7 @@ class ProfileViewController: UIViewController {
         let nameLable = UILabel()
         nameLable.text = "Екатерина Новикова"
         nameLable.textColor = UIColor(named: "YP White")
-        nameLable.font = nameLable.font.withSize(23)
+        nameLable.font = UIFont(name: CustomFonts.bold.rawValue, size: 23)
         
         nameLable.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nameLable)
@@ -41,7 +41,7 @@ class ProfileViewController: UIViewController {
         let loginLable = UILabel()
         loginLable.text = "@ekaterina_nov"
         loginLable.textColor = UIColor(named: "YP Gray")
-        loginLable.font = nameLable.font.withSize(13)
+        loginLable.font = UIFont(name: CustomFonts.regular.rawValue, size: 13)
         
         loginLable.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(loginLable)
@@ -53,7 +53,7 @@ class ProfileViewController: UIViewController {
         let descriptionLable = UILabel()
         descriptionLable.text = "Hello, world!"
         descriptionLable.textColor = UIColor(named: "YP White")
-        descriptionLable.font = nameLable.font.withSize(13)
+        descriptionLable.font = UIFont(name: CustomFonts.regular.rawValue, size: 13)
         
         descriptionLable.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(descriptionLable)
@@ -79,11 +79,6 @@ class ProfileViewController: UIViewController {
             logOutButton.widthAnchor.constraint(equalToConstant: 24),
             logOutButton.heightAnchor.constraint(equalToConstant: 24)
         ])
-        
-//        logOutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24).isActive = true
-//        logOutButton.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
-//        logOutButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
-//        logOutButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
     
     }
     

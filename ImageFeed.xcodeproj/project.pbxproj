@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4723E9A52CF22493007E2C1D /* SF-Pro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4723E9A42CF22493007E2C1D /* SF-Pro-Regular.ttf */; };
+		4723E9A72CF22564007E2C1D /* SF-Pro-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4723E9A62CF22564007E2C1D /* SF-Pro-Bold.otf */; };
+		4723E9A92CF22953007E2C1D /* customFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4723E9A82CF22953007E2C1D /* customFonts.swift */; };
 		475DC05E2CA1D18600D4F59F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475DC05D2CA1D18600D4F59F /* AppDelegate.swift */; };
 		475DC0602CA1D18600D4F59F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475DC05F2CA1D18600D4F59F /* SceneDelegate.swift */; };
 		475DC0622CA1D18600D4F59F /* ImagesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475DC0612CA1D18600D4F59F /* ImagesListViewController.swift */; };
@@ -19,6 +22,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4723E9A42CF22493007E2C1D /* SF-Pro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Regular.ttf"; sourceTree = "<group>"; };
+		4723E9A62CF22564007E2C1D /* SF-Pro-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Bold.otf"; sourceTree = "<group>"; };
+		4723E9A82CF22953007E2C1D /* customFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customFonts.swift; sourceTree = "<group>"; };
 		475DC05A2CA1D18600D4F59F /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		475DC05D2CA1D18600D4F59F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		475DC05F2CA1D18600D4F59F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -43,9 +49,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4723E9A12CF223DF007E2C1D /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				4723E9A62CF22564007E2C1D /* SF-Pro-Bold.otf */,
+				4723E9A42CF22493007E2C1D /* SF-Pro-Regular.ttf */,
+				4723E9A82CF22953007E2C1D /* customFonts.swift */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		475CAD6F2CB91D1D00A99EEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4723E9A12CF223DF007E2C1D /* Fonts */,
 				475DC0682CA1D18A00D4F59F /* LaunchScreen.storyboard */,
 				475DC0662CA1D18A00D4F59F /* Assets.xcassets */,
 			);
@@ -167,8 +184,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				475DC06A2CA1D18A00D4F59F /* LaunchScreen.storyboard in Resources */,
+				4723E9A72CF22564007E2C1D /* SF-Pro-Bold.otf in Resources */,
 				475DC0672CA1D18A00D4F59F /* Assets.xcassets in Resources */,
 				475DC0652CA1D18600D4F59F /* Main.storyboard in Resources */,
+				4723E9A52CF22493007E2C1D /* SF-Pro-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -183,6 +202,7 @@
 				479E056D2CA53A2900027F08 /* ImagesListCell.swift in Sources */,
 				478EA51A2CCB70490024B029 /* ProfileViewController.swift in Sources */,
 				475DC05E2CA1D18600D4F59F /* AppDelegate.swift in Sources */,
+				4723E9A92CF22953007E2C1D /* customFonts.swift in Sources */,
 				478EA51C2CCE1F390024B029 /* SingleImageViewController.swift in Sources */,
 				475DC0602CA1D18600D4F59F /* SceneDelegate.swift in Sources */,
 			);
