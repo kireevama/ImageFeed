@@ -66,7 +66,6 @@ extension ImagesListViewController: UITableViewDataSource {
 
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //new
         performSegue(withIdentifier: showSingleImageSegueIdentifier, sender: indexPath)
     }
     

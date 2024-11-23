@@ -19,7 +19,7 @@ final class SingleImageViewController: UIViewController {
             singleImageUIView.image = image
             
             guard let image = image else { return }
-            singleImageUIView.frame.size = image.size // new
+            singleImageUIView.frame.size = image.size
             rescaleAndCenterImageInScrollView(image: image)
         }
     }
