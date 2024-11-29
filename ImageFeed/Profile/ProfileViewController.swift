@@ -25,41 +25,41 @@ class ProfileViewController: UIViewController {
             imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32)
         ])
         
-        // nameLable
-        let nameLable = UILabel()
-        nameLable.text = "Екатерина Новикова"
-        nameLable.textColor = UIColor(named: "YP White")
-        nameLable.font = UIFont(name: CustomFonts.bold.rawValue, size: 23)
+        // nameLabel
+        let nameLabel = UILabel()
+        nameLabel.text = "Екатерина Новикова"
+        nameLabel.textColor = UIColor(named: "YP White")
+        nameLabel.font = UIFont(name: CustomFonts.bold.rawValue, size: 23)
         
-        nameLable.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(nameLable)
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(nameLabel)
         
-        nameLable.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
-        nameLable.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8).isActive = true
+        nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
+        nameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8).isActive = true
         
-        // loginLable
-        let loginLable = UILabel()
-        loginLable.text = "@ekaterina_nov"
-        loginLable.textColor = UIColor(named: "YP Gray")
-        loginLable.font = UIFont(name: CustomFonts.regular.rawValue, size: 13)
+        // loginLabel
+        let loginLabel = UILabel()
+        loginLabel.text = "@ekaterina_nov"
+        loginLabel.textColor = UIColor(named: "YP Gray")
+        loginLabel.font = UIFont(name: CustomFonts.regular.rawValue, size: 13)
         
-        loginLable.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(loginLable)
+        loginLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loginLabel)
         
-        loginLable.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
-        loginLable.topAnchor.constraint(equalTo: nameLable.bottomAnchor, constant: 8).isActive = true
+        loginLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
+        loginLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8).isActive = true
         
-        // descriptionLable
-        let descriptionLable = UILabel()
-        descriptionLable.text = "Hello, world!"
-        descriptionLable.textColor = UIColor(named: "YP White")
-        descriptionLable.font = UIFont(name: CustomFonts.regular.rawValue, size: 13)
+        // descriptionLabel
+        let descriptionLabel = UILabel()
+        descriptionLabel.text = "Hello, world!"
+        descriptionLabel.textColor = UIColor(named: "YP White")
+        descriptionLabel.font = UIFont(name: CustomFonts.regular.rawValue, size: 13)
         
-        descriptionLable.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(descriptionLable)
+        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(descriptionLabel)
         
-        descriptionLable.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
-        descriptionLable.topAnchor.constraint(equalTo: loginLable.bottomAnchor, constant: 8).isActive = true
+        descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
+        descriptionLabel.topAnchor.constraint(equalTo: loginLabel.bottomAnchor, constant: 8).isActive = true
         
         // logOutButton
         let buttonImage = UIImage(named: "exit")
