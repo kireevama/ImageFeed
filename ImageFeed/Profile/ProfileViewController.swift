@@ -12,7 +12,7 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         
         // profileImage
-        let profileImage = UIImage(named: "photo")
+        let profileImage = UIImage(named: "UserPickStub")
         let imageView = UIImageView(image: profileImage)
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -68,7 +68,7 @@ class ProfileViewController: UIViewController {
         let logOutButton = UIButton.systemButton(
             with: buttonImage,
             target: self,
-            action: #selector(self.didTaplogOutButton))
+            action: #selector(self.didTapLogOutButton))
         logOutButton.tintColor = UIColor(named: "YP Red")
         logOutButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(logOutButton)
@@ -83,7 +83,7 @@ class ProfileViewController: UIViewController {
     }
     
     @objc
-    private func didTaplogOutButton() {
+    private func didTapLogOutButton() {
         return
     }
 }
