@@ -12,7 +12,7 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         
         // profileImage
-        let profileImage = UIImage(named: "UserPickStub")
+        let profileImage = UIImage(named: "Userpick")
         let imageView = UIImageView(image: profileImage)
         
         imageView.translatesAutoresizingMaskIntoConstraints = false

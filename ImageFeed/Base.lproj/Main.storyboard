@@ -180,7 +180,7 @@
                                 <rect key="frame" x="0.0" y="68" width="414" height="750"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="vGI-c6-lLl">
-                                        <rect key="frame" x="0.0" y="20" width="393" height="638"/>
+                                        <rect key="frame" x="0.0" y="20" width="414" height="638"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                 </subviews>
