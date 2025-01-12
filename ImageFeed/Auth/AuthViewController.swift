@@ -9,6 +9,7 @@ import UIKit
 
 final class AuthViewController: UIViewController {
     private let showWebViewSegueIdentifier = "ShowWebView"
+    private let oauth2Service = OAuth2Service.shared
     
     override func viewDidLoad() {
         configureBackButton()
@@ -21,6 +22,7 @@ final class AuthViewController: UIViewController {
         navigationItem.backBarButtonItem?.tintColor = UIColor(named: "YP Black")
     }
     
+    // Задаем делагата для webView
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == showWebViewSegueIdentifier {
             guard
@@ -38,7 +40,14 @@ final class AuthViewController: UIViewController {
 
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        // TODO: process code
+        oauth2Service.fetchOAuthToken(code: code) { result in
+            switch result {
+            case .success(_):
+                vc.dismiss(animated: true)
+            case .failure(_):
+                print("Error")
+            }
+        }
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {

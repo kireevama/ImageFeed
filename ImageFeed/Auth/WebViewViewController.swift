@@ -9,7 +9,7 @@ import UIKit
 import WebKit
 
 final class WebViewViewController: UIViewController {
-
+    
     @IBOutlet private var webView: WKWebView!
     @IBOutlet private var progressView: UIProgressView!
     
@@ -21,8 +21,9 @@ final class WebViewViewController: UIViewController {
     
     override func viewDidLoad() {
         loadAuthView()
-        webView.navigationDelegate = self
+        
         progressView.progressTintColor = UIColor(named: "YP Black")
+        webView.navigationDelegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -31,7 +32,7 @@ final class WebViewViewController: UIViewController {
             forKeyPath: #keyPath(WKWebView.estimatedProgress),
             options: .new,
             context: nil)
-            updateProgress()
+        updateProgress()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -56,38 +57,45 @@ final class WebViewViewController: UIViewController {
         progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
     }
     
+    // Формирование адреса запроса и загрузка экрана авторизации
     private func loadAuthView() {
         guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else {
             print("Error unwrap urlComponents")
-            return }
+            return
+        }
+        
         urlComponents.queryItems = [
             URLQueryItem(name: "client_id", value: Constants.accessKey),
             URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
             URLQueryItem(name: "response_type", value: "code"),
             URLQueryItem(name: "scope", value: Constants.accessScope)
         ]
+        
         guard let url = urlComponents.url else {
             print("Error unwrap url")
-            return }
+            return
+        }
         
         let request = URLRequest(url: url)
         webView.load(request)
     }
 }
 
-extension WebViewViewController: WKNavigationDelegate {
+extension WebViewViewController: WKNavigationDelegate { // Навигационный делегат получает уведомления о навигации пользователя. При его помощи узнаем авторизовался ли пользователь
     func webView(
         _ webView: WKWebView,
         decidePolicyFor navigationAction: WKNavigationAction,
         decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
     ) {
-        if let code = code(from: navigationAction) {
-            decisionHandler(.cancel)
+        if let code = code(from: navigationAction) { // здесь вызываем функцию code, которая ниже
+            delegate?.webViewViewController(self, didAuthenticateWithCode: code)
+            decisionHandler(.cancel) // если код получен - отменяем навигационные действия
         } else {
-            decisionHandler(.allow)
+            decisionHandler(.allow) // если не получен - разрешаем
         }
     }
     
+    // Получение кода из redirectUri
     private func code(from navigationAction: WKNavigationAction) -> String? {
         if
             let url = navigationAction.request.url,
@@ -96,7 +104,7 @@ extension WebViewViewController: WKNavigationDelegate {
             let items = urlComponents.queryItems,
             let codeItem = items.first(where: { $0.name == "code" })
         {
-            return codeItem.value                                           
+            return codeItem.value
         } else {
             return nil
         }

@@ -336,6 +336,30 @@
             </objects>
             <point key="canvasLocation" x="3802.898550724638" y="-594.64285714285711"/>
         </scene>
+        <!--Splash View Controller-->
+        <scene sceneID="3N3-Vp-DGe">
+            <objects>
+                <viewController id="bix-Hb-jAZ" customClass="SplashViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aoZ-vt-3ie">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchScreen" translatesAutoresizingMaskIntoConstraints="NO" id="MgM-gG-uo1">
+                                <rect key="frame" x="169.66666666666666" y="409" width="75" height="78"/>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="saf-sg-msT"/>
+                        <color key="backgroundColor" name="YP Black"/>
+                        <constraints>
+                            <constraint firstItem="MgM-gG-uo1" firstAttribute="centerY" secondItem="aoZ-vt-3ie" secondAttribute="centerY" id="CIO-he-MgG"/>
+                            <constraint firstItem="MgM-gG-uo1" firstAttribute="centerX" secondItem="aoZ-vt-3ie" secondAttribute="centerX" id="zg6-ka-sGi"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3r8-DQ-yWL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-296" y="-1221"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="Ikb-4t-tab">
             <objects>
@@ -358,6 +382,7 @@
     <resources>
         <image name="0" width="1600" height="1059"/>
         <image name="Active" width="42" height="42"/>
+        <image name="LaunchScreen" width="75" height="78"/>
         <image name="backward" width="24" height="24"/>
         <image name="logo_of_unsplash" width="60" height="60"/>
         <image name="profile_active" width="30" height="30"/>
