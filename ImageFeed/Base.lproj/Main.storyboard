@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Mni-8e-58c">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bix-Hb-jAZ">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -114,7 +114,8 @@
         <!--Tab Bar Controller-->
         <scene sceneID="0lG-HS-xBd">
             <objects>
-                <tabBarController id="efo-Fh-52A" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabBarViewController" id="efo-Fh-52A" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="MLm-cO-2mw"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="aao-jr-qmW">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -355,6 +356,9 @@
                             <constraint firstItem="MgM-gG-uo1" firstAttribute="centerX" secondItem="aoZ-vt-3ie" secondAttribute="centerX" id="zg6-ka-sGi"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <segue destination="Mni-8e-58c" kind="presentation" identifier="showAuthenticationScreen" modalPresentationStyle="fullScreen" id="KTI-Wk-bJP"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3r8-DQ-yWL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -363,8 +367,9 @@
         <!--Navigation Controller-->
         <scene sceneID="Ikb-4t-tab">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Mni-8e-58c" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="instantiateViewController" automaticallyAdjustsScrollViewInsets="NO" id="Mni-8e-58c" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="Z0W-v7-8PT"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="wrI-bD-UfG">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

@@ -7,9 +7,15 @@
 
 import UIKit
 
+protocol AuthViewControllerDelegate: AnyObject {
+    func didAuthenticate(_ vc: AuthViewController, didAuthenticateWithToken token: String)
+}
+
 final class AuthViewController: UIViewController {
     private let showWebViewSegueIdentifier = "ShowWebView"
     private let oauth2Service = OAuth2Service.shared
+    
+    weak var delegate: AuthViewControllerDelegate?
     
     override func viewDidLoad() {
         configureBackButton()
@@ -40,12 +46,15 @@ final class AuthViewController: UIViewController {
 
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        oauth2Service.fetchOAuthToken(code: code) { result in
+        vc.dismiss(animated: true)
+        
+        self.oauth2Service.fetchOAuthToken(code: code) { result in
             switch result {
-            case .success(_):
-                vc.dismiss(animated: true)
-            case .failure(_):
-                print("Error")
+            case .success(let token):
+                self.delegate?.didAuthenticate(self, didAuthenticateWithToken: token)
+                print("Token is received: \(token)")
+            case .failure(let error):
+                print("Error: Failed to fetch token \(error)")
             }
         }
     }

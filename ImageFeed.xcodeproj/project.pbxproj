@@ -118,6 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				4737AEA82D02CDEE0096A5EC /* Constants.swift */,
+				479D93D82D352BED007DC2E2 /* SplashViewController */,
 				4707DEBF2D2745E500D7DF1C /* Auth */,
 				479E056E2CA53A6E00027F08 /* ImagesList */,
 				478EA51D2CCE236F0024B029 /* SingleImageViewController */,
@@ -127,7 +128,6 @@
 				475DC0632CA1D18600D4F59F /* Main.storyboard */,
 				475DC06B2CA1D18A00D4F59F /* Info.plist */,
 				475CAD6F2CB91D1D00A99EEA /* Resources */,
-				47DA063E2D3478BF00241EF4 /* SplashViewController.swift */,
 			);
 			path = ImageFeed;
 			sourceTree = "<group>";
@@ -146,6 +146,14 @@
 				478EA51B2CCE1F390024B029 /* SingleImageViewController.swift */,
 			);
 			path = SingleImageViewController;
+			sourceTree = "<group>";
+		};
+		479D93D82D352BED007DC2E2 /* SplashViewController */ = {
+			isa = PBXGroup;
+			children = (
+				47DA063E2D3478BF00241EF4 /* SplashViewController.swift */,
+			);
+			path = SplashViewController;
 			sourceTree = "<group>";
 		};
 		479E056E2CA53A6E00027F08 /* ImagesList */ = {
