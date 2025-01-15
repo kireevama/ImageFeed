@@ -12,14 +12,15 @@ final class SplashViewController: UIViewController {
     
     private let showAuthenticationScreenSegueIdentifier = "showAuthenticationScreen"
     
-    override func viewDidAppear(_ animated: Bool) { // сначала отображаем SplashView, потом решаем куда перенаправить дальше
+    override func viewDidAppear(_ animated: Bool) { // Сразу отображаем SplashView, потом решаем куда перенаправить дальше
         super.viewDidAppear(animated)
         
-        if let token = storage.token {
-//        if storage.token != nil {
+        if storage.token != nil {
+            print("Token received")
             switchToTabBarController()
         } else {
-            performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier, sender: nil) // показываем экран авторизации, если токена нет
+            print("Token not found")
+            performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier, sender: nil) // Показываем экран авторизации, если токена нет
         }
     }
     
@@ -33,17 +34,13 @@ final class SplashViewController: UIViewController {
         // Создаём экземпляр нужного контроллера из Storyboard с помощью ранее заданного идентификатора
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
             .instantiateViewController(withIdentifier: "TabBarViewController")
-           
+        
         // Установим в `rootViewController` полученный контроллер
         window.rootViewController = tabBarController
     }
     
-//    func didAuthenticate(_ vc: AuthViewController) {
-//        vc.dismiss(animated: true)
-//        self.switchToTabBarController()
-//    }
-    
     func didAuthenticate(_ vc: AuthViewController, didAuthenticateWithToken token: String) {
+        print("Did Authenticate: \(token)")
         vc.dismiss(animated: true)
         self.switchToTabBarController()
     }

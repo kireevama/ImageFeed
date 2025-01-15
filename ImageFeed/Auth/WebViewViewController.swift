@@ -89,6 +89,7 @@ extension WebViewViewController: WKNavigationDelegate { // Навигацион�
     ) {
         if let code = code(from: navigationAction) {
             delegate?.webViewViewController(self, didAuthenticateWithCode: code)
+            print("Code from navigationAction received: \(code)")
             decisionHandler(.cancel) // Если код получен - отменяем навигационные действия
         } else {
             decisionHandler(.allow) // Если не получен - разрешаем
@@ -104,6 +105,7 @@ extension WebViewViewController: WKNavigationDelegate { // Навигацион�
             let items = urlComponents.queryItems,
             let codeItem = items.first(where: { $0.name == "code" })
         {
+            print("Code value: \(codeItem.value)")
             return codeItem.value
         } else {
             return nil
