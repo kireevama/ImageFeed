@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct OAuthTokenResponseBody: Codable {
+struct OAuthTokenResponseBody: Decodable {
     var access_token = "access_token"
 }
 
@@ -16,8 +16,10 @@ final class OAuth2Service {
     private init() {}
     
     let oauth2TokenStorage = OAuth2TokenStorage()
+    private let decoder = JSONDecoder()
     
     private enum ParsingJSONServiceError: Error {
+        case decodeError
         case invalidJson
         case incorrectObject
     }
@@ -56,13 +58,15 @@ final class OAuth2Service {
     // Отправка запроса на получение токена и обработка ответа
     func fetchOAuthToken(code: String, handler: @escaping(Result<String, Error>) -> Void) {
         let request = makeOAuthTokenRequest(code: code)
-        let task = URLSession.shared.data(for: request) { result in
+        let task = URLSession.shared.data(for: request) { [weak self] result in
             switch result {
             case .success(let data):
                 do {
-                    let response = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
-                    self.oauth2TokenStorage.token = response.access_token
+                    guard let response = try self?.decoder.decode(OAuthTokenResponseBody.self, from: data) else { print("Parsing JSON error:\(ParsingJSONServiceError.decodeError)")
+                        return
+                    }
                     
+                    self?.oauth2TokenStorage.token = response.access_token
                     handler(.success(response.access_token))
                 } catch {
                     print("Parsing JSON error: \(ParsingJSONServiceError.invalidJson)")

@@ -105,7 +105,7 @@ extension WebViewViewController: WKNavigationDelegate { // Навигацион�
             let items = urlComponents.queryItems,
             let codeItem = items.first(where: { $0.name == "code" })
         {
-            print("Code value: \(codeItem.value)")
+            print("Code value: \(String(describing: codeItem.value))")
             return codeItem.value
         } else {
             return nil
