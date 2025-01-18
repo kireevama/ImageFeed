@@ -8,7 +8,7 @@
 import Foundation
 
 struct OAuthTokenResponseBody: Decodable {
-    var access_token = "access_token"
+    var accessToken: String
 }
 
 final class OAuth2Service {
@@ -61,13 +61,14 @@ final class OAuth2Service {
         let task = URLSession.shared.data(for: request) { [weak self] result in
             switch result {
             case .success(let data):
+                self?.decoder.keyDecodingStrategy = .convertFromSnakeCase
+                
                 do {
                     guard let response = try self?.decoder.decode(OAuthTokenResponseBody.self, from: data) else { print("Parsing JSON error:\(ParsingJSONServiceError.decodeError)")
                         return
                     }
-                    
-                    self?.oauth2TokenStorage.token = response.access_token
-                    handler(.success(response.access_token))
+                    self?.oauth2TokenStorage.token = response.accessToken
+                    handler(.success(response.accessToken))
                 } catch {
                     print("Parsing JSON error: \(ParsingJSONServiceError.invalidJson)")
                 }
