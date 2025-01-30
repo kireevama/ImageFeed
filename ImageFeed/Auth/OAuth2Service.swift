@@ -18,6 +18,10 @@ final class OAuth2Service {
     let oauth2TokenStorage = OAuth2TokenStorage()
     private let decoder = JSONDecoder()
     
+    private let urlSession = URLSession.shared
+    private var task: URLSessionTask?
+    private var lastCode: String?
+    
     private enum ParsingJSONServiceError: Error {
         case decodeError
         case invalidJson
@@ -25,13 +29,14 @@ final class OAuth2Service {
     }
     
     private enum RequestError: Error {
+        case invalidRequest
         case invalidBaseURL
         case invalidURLComponents
         case badRequest
     }
     
     // Создание запроса для получения токена
-    private func makeOAuthTokenRequest(code: String) -> URLRequest {
+    private func makeOAuthTokenRequest(code: String) -> URLRequest? {
         guard let baseURL = URL(string: "https://unsplash.com") else {
             preconditionFailure("Invalid base URL \(RequestError.invalidBaseURL)")
         }
@@ -57,7 +62,19 @@ final class OAuth2Service {
     
     // Отправка запроса на получение токена и обработка ответа
     func fetchOAuthToken(code: String, handler: @escaping(Result<String, Error>) -> Void) {
-        let request = makeOAuthTokenRequest(code: code)
+        assert(Thread.isMainThread) // проверка, что код выполняется на главном потоке
+        guard lastCode != code else {
+            handler(.failure(RequestError.invalidRequest))
+            return
+        }
+        
+        task?.cancel()
+        
+        lastCode = code // сохраняем код из запроса
+        guard let request = makeOAuthTokenRequest(code: code) else {
+            return handler(.failure(RequestError.invalidRequest))
+        }
+        
         let task = URLSession.shared.data(for: request) { [weak self] result in
             switch result {
             case .success(let data):
@@ -75,9 +92,12 @@ final class OAuth2Service {
             case .failure(let error):
                 print("Network error: \(error)")
                 handler(.failure(error))
+                
+                self?.task = nil // обнуление task
+                self?.lastCode = nil // обнуление lastCode
             }
         }
-        
+        self.task = task // сохраняем task
         task.resume()
     }
 }
