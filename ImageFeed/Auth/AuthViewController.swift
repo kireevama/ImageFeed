@@ -57,7 +57,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
                 
                 UIBlockingProgressHUD.dismiss()
                 self.delegate?.didAuthenticate(self, didAuthenticateWithToken: token)
-                print("Token is received: \(token)")
+                print("Token received: \(token)")
             case .failure(let error):
                 print("Error: Failed to fetch token \(error)")
             }

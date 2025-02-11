@@ -55,16 +55,14 @@ final class OAuth2Service {
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        
-        print("OAuth2Service url:\(request)")
         return request
     }
     
     // Отправка запроса на получение токена и обработка ответа
-    func fetchOAuthToken(code: String, handler: @escaping(Result<String, Error>) -> Void) {
+    func fetchOAuthToken(code: String, completion: @escaping(Result<String, Error>) -> Void) {
         assert(Thread.isMainThread) // проверка, что код выполняется на главном потоке
         guard lastCode != code else {
-            handler(.failure(RequestError.invalidRequest))
+            completion(.failure(RequestError.invalidRequest))
             return
         }
         
@@ -72,7 +70,7 @@ final class OAuth2Service {
         
         lastCode = code // сохраняем код из запроса
         guard let request = makeOAuthTokenRequest(code: code) else {
-            return handler(.failure(RequestError.invalidRequest))
+            return completion(.failure(RequestError.invalidRequest))
         }
         
         let task = URLSession.shared.data(for: request) { [weak self] result in
@@ -85,13 +83,13 @@ final class OAuth2Service {
                         return
                     }
                     self?.oauth2TokenStorage.token = response.accessToken
-                    handler(.success(response.accessToken))
+                    completion(.success(response.accessToken))
                 } catch {
                     print("Parsing JSON error: \(ParsingJSONServiceError.invalidJson)")
                 }
             case .failure(let error):
                 print("Network error: \(error)")
-                handler(.failure(error))
+                completion(.failure(error))
                 
                 self?.task = nil // обнуление task
                 self?.lastCode = nil // обнуление lastCode

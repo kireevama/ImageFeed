@@ -10,6 +10,10 @@ import UIKit
 final class SplashViewController: UIViewController {
     private let storage = OAuth2TokenStorage()
     
+    // new
+    private let profileService = ProfileService.shared
+    // new
+    
     private let showAuthenticationScreenSegueIdentifier = "showAuthenticationScreen"
     
     override func viewDidAppear(_ animated: Bool) { // Сразу отображаем SplashView, потом решаем куда перенаправить дальше
@@ -18,6 +22,15 @@ final class SplashViewController: UIViewController {
         if storage.token != nil {
             print("Token received")
             switchToTabBarController()
+            
+            //new
+            guard let token = storage.token else {
+                print("Failed get token")
+                return
+            }
+            fetchProfile(token)
+            //new
+            
         } else {
             print("Token not found")
             performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier, sender: nil) // Показываем экран авторизации, если токена нет
@@ -42,7 +55,34 @@ final class SplashViewController: UIViewController {
     func didAuthenticate(_ vc: AuthViewController, didAuthenticateWithToken token: String) {
         print("Did Authenticate: \(token)")
         vc.dismiss(animated: true)
+        
+        //new
+        guard let token = storage.token else {
+            return
+        }
+        fetchProfile(token)
+        //new
+        
         self.switchToTabBarController()
+    }
+    
+    private func fetchProfile(_ token: String) {
+        UIBlockingProgressHUD.show()
+            self.profileService.fetchProfile(token) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+
+            guard let self = self else { return }
+            switch result {
+            case .success:
+                self.switchToTabBarController()
+                //new
+                
+                //new
+            case .failure:
+                print("Error getting profile")
+                break
+            }
+        }
     }
 }
 

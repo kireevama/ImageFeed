@@ -11,6 +11,10 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //new
+        let profileService = ProfileService.shared
+        //new
+        
         // profileImage
         let profileImage = UIImage(named: "Userpick")
         let imageView = UIImageView(image: profileImage)
@@ -79,7 +83,20 @@ class ProfileViewController: UIViewController {
             logOutButton.widthAnchor.constraint(equalToConstant: 24),
             logOutButton.heightAnchor.constraint(equalToConstant: 24)
         ])
-    
+        
+        //new
+        func updateProfileDetails(profile: Profile?) {
+            guard let profile = profile else {
+                return print("Profile is nil")
+            }
+            
+            nameLabel.text = profile.name
+            loginLabel.text = profile.loginName
+            descriptionLabel.text = profile.bio
+        }
+        
+        updateProfileDetails(profile: profileService.profile)
+        //new
     }
     
     @objc
