@@ -9,10 +9,8 @@ import UIKit
 
 final class SplashViewController: UIViewController {
     private let storage = OAuth2TokenStorage()
-    
-    // new
     private let profileService = ProfileService.shared
-    // new
+    private let profileImageService = ProfileImageService.shared
     
     private let showAuthenticationScreenSegueIdentifier = "showAuthenticationScreen"
     
@@ -22,15 +20,13 @@ final class SplashViewController: UIViewController {
         if storage.token != nil {
             print("Token received")
             switchToTabBarController()
-            
-            //new
+
             guard let token = storage.token else {
                 print("Failed get token")
                 return
             }
-            fetchProfile(token)
-            //new
             
+            fetchProfile(token)
         } else {
             print("Token not found")
             performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier, sender: nil) // Показываем экран авторизации, если токена нет
@@ -55,14 +51,12 @@ final class SplashViewController: UIViewController {
     func didAuthenticate(_ vc: AuthViewController, didAuthenticateWithToken token: String) {
         print("Did Authenticate: \(token)")
         vc.dismiss(animated: true)
-        
-        //new
+
         guard let token = storage.token else {
             return
         }
-        fetchProfile(token)
-        //new
         
+        fetchProfile(token)
         self.switchToTabBarController()
     }
     
@@ -73,13 +67,27 @@ final class SplashViewController: UIViewController {
 
             guard let self = self else { return }
             switch result {
-            case .success:
+            case .success (let profile):
                 self.switchToTabBarController()
-                //new
-                
-                //new
+                self.fetchProfileImage(token: token, username: profile.username)
             case .failure:
                 print("Error getting profile")
+                break
+            }
+        }
+    }
+    
+    private func fetchProfileImage(token: String, username: String) {
+        self.profileImageService.fetchProfileImageURL(token: token, username: username) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+            
+            guard let self = self else { return }
+            switch result {
+            case .success:
+                print("Image URL received")
+                self.switchToTabBarController()
+            case .failure:
+                print("Error getting profile image URL")
                 break
             }
         }

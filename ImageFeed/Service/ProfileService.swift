@@ -16,7 +16,7 @@ struct ProfileResult: Decodable { // Структура для декодиро�
 
 struct Profile { // Структура для использования на UI-слое
     let username: String
-    let name: String // конкантенация имени и фамилии
+    let name: String // Конкантенация имени и фамилии
     let loginName: String? // username с @ вначале
     let bio: String?
 }
@@ -28,28 +28,15 @@ final class ProfileService {
     private let decoder = JSONDecoder()
     private(set) var profile: Profile?
     
-    private enum RequestError: Error { // Ошибки сети, потом УДАЛИТЬ
-        case invalidRequest
-        case invalidBaseURL
-        case invalidURLComponents
-        case badRequest
-    }
-    
-    private enum ParsingJSONServiceError: Error { // Ошибки декодирования, потом УДАЛИТЬ
-        case decodeError
-        case invalidJson
-        case incorrectObject
-    }
-    
     private func makeProfileRequest(token: String) -> URLRequest? {
         guard let baseUrl = URL(string: Constants.defaultBaseURL.absoluteString) else {
-            preconditionFailure("Invalid base URL \(RequestError.invalidBaseURL)")
+            preconditionFailure("Invalid base URL \(ErrorsList.RequestError.invalidBaseURL)")
         }
         guard let url = URL(string:
                                 "/me",
                             relativeTo: baseUrl
         ) else {
-            preconditionFailure("Invalid URL Components \(RequestError.invalidURLComponents)")
+            preconditionFailure("Invalid URL Components \(ErrorsList.RequestError.invalidURLComponents)")
         }
         
         var request = URLRequest(url: url)
@@ -63,34 +50,24 @@ final class ProfileService {
         assert(Thread.isMainThread)
         
         guard let request = makeProfileRequest(token: token) else {
-            return completion(.failure(RequestError.invalidRequest))
+            return completion(.failure(ErrorsList.RequestError.invalidRequest))
         }
         
-        let task = URLSession.shared.data(for: request) { [weak self] result in
+        let task = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
             switch result {
             case .success(let data):
-                self?.decoder.keyDecodingStrategy = .convertFromSnakeCase
-                do {
-                    guard let response = try self?.decoder.decode(ProfileResult.self, from: data) else {
-                        print("Parsing JSON error:\(ParsingJSONServiceError.invalidJson)")
-                            return
-                    }
-                    let profile = Profile(username: response.username,
-                                          name: response.firstName + " " + (response.lastName ?? ""),
-                                          loginName: "@" + response.username,
-                                          bio: response.bio ?? "")
-                    self?.profile = profile
-                    completion(.success(profile))
-                } catch {
-                    print("\(ParsingJSONServiceError.decodeError)")
-                }
+                let profile = Profile(username: data.username,
+                                      name: data.firstName + " " + (data.lastName ?? ""),
+                                      loginName: "@" + data.username,
+                                      bio: data.bio ?? "")
+                self?.profile = profile
+                completion(.success(profile))
             case .failure(let error):
-                print("Network error: \(error)")
+                print("ProfileService: NetworkError \(error.localizedDescription)")
                 completion(.failure(error))
             }
         }
         
         task.resume()
     }
-    
 }

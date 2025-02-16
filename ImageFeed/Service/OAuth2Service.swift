@@ -22,23 +22,10 @@ final class OAuth2Service {
     private var task: URLSessionTask?
     private var lastCode: String?
     
-    private enum ParsingJSONServiceError: Error {
-        case decodeError
-        case invalidJson
-        case incorrectObject
-    }
-    
-    private enum RequestError: Error {
-        case invalidRequest
-        case invalidBaseURL
-        case invalidURLComponents
-        case badRequest
-    }
-    
     // Создание запроса для получения токена
     private func makeOAuthTokenRequest(code: String) -> URLRequest? {
         guard let baseURL = URL(string: "https://unsplash.com") else {
-            preconditionFailure("Invalid base URL \(RequestError.invalidBaseURL)")
+            preconditionFailure("Invalid base URL \(ErrorsList.RequestError.invalidBaseURL)")
         }
         
         guard let url = URL(string:
@@ -50,7 +37,7 @@ final class OAuth2Service {
                             + "&&grant_type=authorization_code",
                             relativeTo: baseURL
         ) else {
-            preconditionFailure("Invalid URL Components \(RequestError.invalidURLComponents)")
+            preconditionFailure("Invalid URL Components \(ErrorsList.RequestError.invalidURLComponents)")
         }
         
         var request = URLRequest(url: url)
@@ -62,7 +49,7 @@ final class OAuth2Service {
     func fetchOAuthToken(code: String, completion: @escaping(Result<String, Error>) -> Void) {
         assert(Thread.isMainThread) // проверка, что код выполняется на главном потоке
         guard lastCode != code else {
-            completion(.failure(RequestError.invalidRequest))
+            completion(.failure(ErrorsList.RequestError.invalidRequest))
             return
         }
         
@@ -70,25 +57,16 @@ final class OAuth2Service {
         
         lastCode = code // сохраняем код из запроса
         guard let request = makeOAuthTokenRequest(code: code) else {
-            return completion(.failure(RequestError.invalidRequest))
+            return completion(.failure(ErrorsList.RequestError.invalidRequest))
         }
         
-        let task = URLSession.shared.data(for: request) { [weak self] result in
+        let task = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
             switch result {
             case .success(let data):
-                self?.decoder.keyDecodingStrategy = .convertFromSnakeCase
-                
-                do {
-                    guard let response = try self?.decoder.decode(OAuthTokenResponseBody.self, from: data) else { print("Parsing JSON error:\(ParsingJSONServiceError.decodeError)")
-                        return
-                    }
-                    self?.oauth2TokenStorage.token = response.accessToken
-                    completion(.success(response.accessToken))
-                } catch {
-                    print("Parsing JSON error: \(ParsingJSONServiceError.invalidJson)")
-                }
+                self?.oauth2TokenStorage.token = data.accessToken
+                completion(.success(data.accessToken))
             case .failure(let error):
-                print("Network error: \(error)")
+                print("OAuth2Service: NetworkError \(error.localizedDescription)")
                 completion(.failure(error))
                 
                 self?.task = nil // обнуление task

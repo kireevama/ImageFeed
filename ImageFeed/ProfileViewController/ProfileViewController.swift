@@ -6,15 +6,28 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ProfileViewController: UIViewController {
+    let profileService = ProfileService.shared
+    
+    private var profileImageServiceObserver: NSObjectProtocol?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //new
-        let profileService = ProfileService.shared
-        //new
+        profileImageServiceObserver = NotificationCenter.default
+                   .addObserver(
+                       forName: ProfileImageService.didChangeNotification,
+                       object: nil,
+                       queue: .main
+                   ) { [weak self] _ in
+                       guard let self = self else { return }
+                       self.updateAvatar()
+                   }
         
+               updateAvatar()
+            
         // profileImage
         let profileImage = UIImage(named: "Userpick")
         let imageView = UIImageView(image: profileImage)
@@ -84,7 +97,6 @@ class ProfileViewController: UIViewController {
             logOutButton.heightAnchor.constraint(equalToConstant: 24)
         ])
         
-        //new
         func updateProfileDetails(profile: Profile?) {
             guard let profile = profile else {
                 return print("Profile is nil")
@@ -96,11 +108,21 @@ class ProfileViewController: UIViewController {
         }
         
         updateProfileDetails(profile: profileService.profile)
-        //new
     }
     
     @objc
     private func didTapLogOutButton() {
         return
     }
+    
+    private func updateAvatar() {
+        guard
+            let profileImageURL = profileService.avatarURL,
+            let url = URL(string: profileImageURL)
+        else { return }
+//         TODO Обновить аватар, используя Kingfisher
+        
+    }
+
 }
+
