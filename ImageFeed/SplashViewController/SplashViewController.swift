@@ -68,8 +68,8 @@ final class SplashViewController: UIViewController {
             guard let self = self else { return }
             switch result {
             case .success (let profile):
-                self.switchToTabBarController()
-                self.fetchProfileImage(token: token, username: profile.username)
+                self.fetchProfileImageURL(token: token, username: profile.username)
+//                self.switchToTabBarController()
             case .failure:
                 print("Error getting profile")
                 break
@@ -77,10 +77,9 @@ final class SplashViewController: UIViewController {
         }
     }
     
-    private func fetchProfileImage(token: String, username: String) {
+    private func fetchProfileImageURL(token: String, username: String) {
         self.profileImageService.fetchProfileImageURL(token: token, username: username) { [weak self] result in
             UIBlockingProgressHUD.dismiss()
-            
             guard let self = self else { return }
             switch result {
             case .success:

@@ -8,30 +8,32 @@
 import UIKit
 import Kingfisher
 
-class ProfileViewController: UIViewController {
+final class ProfileViewController: UIViewController {
     let profileService = ProfileService.shared
+    let profileImageService = ProfileImageService.shared
     
+    private let imageView = UIImageView()
     private var profileImageServiceObserver: NSObjectProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         profileImageServiceObserver = NotificationCenter.default
-                   .addObserver(
-                       forName: ProfileImageService.didChangeNotification,
-                       object: nil,
-                       queue: .main
-                   ) { [weak self] _ in
-                       guard let self = self else { return }
-                       self.updateAvatar()
-                   }
+            .addObserver(
+                forName: ProfileImageService.didChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                guard let self = self else { return }
+                self.updateAvatar()
+            }
         
-               updateAvatar()
-            
+        setupUI()
+        updateAvatar()
+    }
+        
+    private func setupUI() {
         // profileImage
-        let profileImage = UIImage(named: "Userpick")
-        let imageView = UIImageView(image: profileImage)
-        
         imageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(imageView)
         
@@ -117,12 +119,11 @@ class ProfileViewController: UIViewController {
     
     private func updateAvatar() {
         guard
-            let profileImageURL = profileService.avatarURL,
+            let profileImageURL = profileImageService.avatarURL,
             let url = URL(string: profileImageURL)
         else { return }
-//         TODO Обновить аватар, используя Kingfisher
         
+        let processor = RoundCornerImageProcessor(cornerRadius: 60)
+        imageView.kf.setImage(with: url, placeholder: UIImage(named: "UserPickStub"), options: [.processor(processor)])
     }
-
 }
-

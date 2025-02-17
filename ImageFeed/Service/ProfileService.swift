@@ -25,7 +25,6 @@ final class ProfileService {
     static let shared = ProfileService()
     private init() {}
     
-    private let decoder = JSONDecoder()
     private(set) var profile: Profile?
     
     private func makeProfileRequest(token: String) -> URLRequest? {

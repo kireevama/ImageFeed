@@ -18,10 +18,8 @@ struct ProfileImageUrl: Decodable {
 final class ProfileImageService {
     static let shared = ProfileImageService()
     private init() {}
-
-    static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     
-    let decoder = JSONDecoder()
+    static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     
     private (set) var avatarURL: String? // Хранение url profileImage, в случае успешного запроса
     
@@ -53,12 +51,13 @@ final class ProfileImageService {
         let task = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
             switch result {
             case .success(let data):
+                self?.avatarURL = data.profileImage.small
+                completion(.success(data.profileImage.small))
+                
                 NotificationCenter.default
                     .post(name: ProfileImageService.didChangeNotification,
                           object: self,
-                          userInfo: ["URL": profileImageURL])
-
-                    self?.avatarURL = data.profileImage.small
+                          userInfo: ["URL": data.profileImage.small])
             case .failure(let error):
                 print("ProfileImageService: NetworkError \(error.localizedDescription)")
                 completion(.failure(error))
