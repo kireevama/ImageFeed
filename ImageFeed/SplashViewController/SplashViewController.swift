@@ -12,7 +12,7 @@ final class SplashViewController: UIViewController {
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     
-    private let showAuthenticationScreenSegueIdentifier = "showAuthenticationScreen"
+//    private let showAuthenticationScreenSegueIdentifier = "showAuthenticationScreen"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +35,8 @@ final class SplashViewController: UIViewController {
             fetchProfile(token)
         } else {
             print("Token not found")
-            performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier, sender: nil) // Показываем экран авторизации, если токена нет
+
+            showAuthViewController() // Показываем экран авторизации, если токена нет
         }
     }
     
@@ -90,7 +91,6 @@ final class SplashViewController: UIViewController {
             switch result {
             case .success (let profile):
                 self.fetchProfileImageURL(token: token, username: profile.username)
-//                self.switchToTabBarController()
             case .failure:
                 print("Error getting profile")
                 break
