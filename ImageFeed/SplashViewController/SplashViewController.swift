@@ -26,7 +26,6 @@ final class SplashViewController: UIViewController {
         
         if storage.token != nil {
             print("Token received")
-            switchToTabBarController()
 
             guard let token = storage.token else {
                 print("Failed get token")
