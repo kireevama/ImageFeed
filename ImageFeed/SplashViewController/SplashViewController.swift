@@ -14,7 +14,14 @@ final class SplashViewController: UIViewController {
     
     private let showAuthenticationScreenSegueIdentifier = "showAuthenticationScreen"
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setupUI()
+    }
+    
     override func viewDidAppear(_ animated: Bool) { // Сразу отображаем SplashView, потом решаем куда перенаправить дальше
+        
         super.viewDidAppear(animated)
         
         if storage.token != nil {
@@ -31,6 +38,21 @@ final class SplashViewController: UIViewController {
             print("Token not found")
             performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier, sender: nil) // Показываем экран авторизации, если токена нет
         }
+    }
+    
+    private let splashImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(named: "LaunchScreen")
+        return imageView
+    }()
+    
+    private func setupUI() {
+        view.addSubview(splashImageView)
+        NSLayoutConstraint.activate([
+            splashImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            splashImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
     }
     
     private func switchToTabBarController() {
@@ -94,19 +116,15 @@ final class SplashViewController: UIViewController {
 }
 
 extension SplashViewController: AuthViewControllerDelegate {
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == showAuthenticationScreenSegueIdentifier {
-            guard
-                let navigationController = segue.destination as? UINavigationController,
-                let viewController = navigationController.viewControllers[0] as? AuthViewController
-            else {
-                assertionFailure("Failed to prepare for \(showAuthenticationScreenSegueIdentifier)")
-                return
-            }
-            viewController.delegate = self
-            
-        } else {
-            super.prepare(for: segue, sender: sender)
+    private func showAuthViewController() {
+        let storyboard = UIStoryboard(name: "Main", bundle: .main)
+        guard let authViewController = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController else {
+            assertionFailure("Error getting authViewController")
+            return
         }
+        
+        authViewController.delegate = self
+        authViewController.modalPresentationStyle = .fullScreen
+        present(authViewController, animated: true)
     }
 }

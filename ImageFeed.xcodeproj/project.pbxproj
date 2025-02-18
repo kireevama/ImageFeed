@@ -34,6 +34,7 @@
 		47DA063F2D3478BF00241EF4 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DA063E2D3478BF00241EF4 /* SplashViewController.swift */; };
 		47DF82072D4C2FB900C65E89 /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DF82062D4C2FB900C65E89 /* UIBlockingProgressHUD.swift */; };
 		47F58B082D63D410006E474D /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 47F58B072D63D410006E474D /* SwiftKeychainWrapper */; };
+		47F58B0B2D63E771006E474D /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F58B0A2D63E771006E474D /* TabBarController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +64,7 @@
 		479E056C2CA53A2900027F08 /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
 		47DA063E2D3478BF00241EF4 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		47DF82062D4C2FB900C65E89 /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
+		47F58B0A2D63E771006E474D /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +87,7 @@
 				4707DEC02D2745FE00D7DF1C /* AuthViewController.swift */,
 				4707DEC22D274DAE00D7DF1C /* WebViewViewController.swift */,
 				477DC39B2D285A1F0040BEDE /* WebViewViewControllerDelegateProtocol.swift */,
+				475DC05F2CA1D18600D4F59F /* SceneDelegate.swift */,
 				471E871C2D31D08800E82482 /* OAuth2TokenStorage.swift */,
 			);
 			path = Auth;
@@ -129,6 +132,7 @@
 		475DC05C2CA1D18600D4F59F /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
+				47F58B092D63E759006E474D /* TabBarController */,
 				4774DE142D5BC9110032977D /* Errors */,
 				4707DEBF2D2745E500D7DF1C /* Auth */,
 				478EA5182CCB70110024B029 /* ProfileViewController */,
@@ -140,7 +144,6 @@
 				4778AAFD2D4E92AE00D9A617 /* Extensions */,
 				479E056E2CA53A6E00027F08 /* ImagesList */,
 				475DC05D2CA1D18600D4F59F /* AppDelegate.swift */,
-				475DC05F2CA1D18600D4F59F /* SceneDelegate.swift */,
 				475DC0632CA1D18600D4F59F /* Main.storyboard */,
 				475DC06B2CA1D18A00D4F59F /* Info.plist */,
 				475CAD6F2CB91D1D00A99EEA /* Resources */,
@@ -221,6 +224,14 @@
 				475DC0612CA1D18600D4F59F /* ImagesListViewController.swift */,
 			);
 			path = ImagesList;
+			sourceTree = "<group>";
+		};
+		47F58B092D63E759006E474D /* TabBarController */ = {
+			isa = PBXGroup;
+			children = (
+				47F58B0A2D63E771006E474D /* TabBarController.swift */,
+			);
+			path = TabBarController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -319,6 +330,7 @@
 				4723E9A92CF22953007E2C1D /* customFonts.swift in Sources */,
 				47DA063F2D3478BF00241EF4 /* SplashViewController.swift in Sources */,
 				478EA51C2CCE1F390024B029 /* SingleImageViewController.swift in Sources */,
+				47F58B0B2D63E771006E474D /* TabBarController.swift in Sources */,
 				477DC39C2D285A1F0040BEDE /* WebViewViewControllerDelegateProtocol.swift in Sources */,
 				475DC0602CA1D18600D4F59F /* SceneDelegate.swift in Sources */,
 				4774DE162D5BC9960032977D /* ErrorsList.swift in Sources */,
