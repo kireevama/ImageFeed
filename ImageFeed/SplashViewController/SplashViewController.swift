@@ -72,6 +72,7 @@ final class SplashViewController: UIViewController {
         vc.dismiss(animated: true)
         
         guard let token = storage.token else {
+            print("Failed to save token")
             return
         }
         
@@ -114,13 +115,18 @@ final class SplashViewController: UIViewController {
 extension SplashViewController: AuthViewControllerDelegate {
     private func showAuthViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
-        guard let authViewController = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController else {
+        guard let navigationController = storyboard.instantiateViewController(withIdentifier: "AuthNavigationController") as? UINavigationController else {
             assertionFailure("Error getting authViewController")
             return
         }
-
-        authViewController.delegate = self
-        authViewController.modalPresentationStyle = .overFullScreen
-        present(authViewController, animated: true)
+        
+        guard let viewController = navigationController.viewControllers[0] as? AuthViewController
+        else {
+            assertionFailure("Failed to save viewController")
+            return }
+        viewController.delegate = self
+        
+        navigationController.modalPresentationStyle = .overFullScreen
+        present(navigationController, animated: true)
     }
 }
