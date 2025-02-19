@@ -28,6 +28,7 @@ final class ProfileViewController: UIViewController {
                 self.updateAvatar()
             }
         
+        self.view.backgroundColor = UIColor(named: "YP Black")
         setupUI()
         updateAvatar()
     }
