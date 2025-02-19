@@ -127,7 +127,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CiO-FM-G45" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1027.536231884058" y="-344.19642857142856"/>
+            <point key="canvasLocation" x="-1049" y="385"/>
         </scene>
         <!--ImagesListViewController-->
         <scene sceneID="tne-QT-ifu">
@@ -220,7 +220,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2962.3188405797105" y="-594.64285714285711"/>
+            <point key="canvasLocation" x="420" y="384"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="HE3-uz-rg2">
@@ -244,7 +244,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="knc-Aw-6M0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2034.7826086956522" y="-594.64285714285711"/>
+            <point key="canvasLocation" x="-296" y="384"/>
         </scene>
         <!--Single Image View Controller-->
         <scene sceneID="opA-IV-6X9">
@@ -315,12 +315,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c9G-dI-ZJe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3802.898550724638" y="-594.64285714285711"/>
+            <point key="canvasLocation" x="1159" y="384"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Ikb-4t-tab">
             <objects>
-                <navigationController storyboardIdentifier="instantiateViewController" automaticallyAdjustsScrollViewInsets="NO" id="Mni-8e-58c" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="AuthNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="Mni-8e-58c" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="Z0W-v7-8PT"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="wrI-bD-UfG">

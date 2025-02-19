@@ -9,8 +9,8 @@ import UIKit
 import Kingfisher
 
 final class ProfileViewController: UIViewController {
-    let profileService = ProfileService.shared
-    let profileImageService = ProfileImageService.shared
+    private let profileService = ProfileService.shared
+    private let profileImageService = ProfileImageService.shared
     
     private let imageView = UIImageView()
     private var profileImageServiceObserver: NSObjectProtocol?
@@ -31,7 +31,7 @@ final class ProfileViewController: UIViewController {
         setupUI()
         updateAvatar()
     }
-        
+    
     private func setupUI() {
         // profileImage
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -99,6 +99,8 @@ final class ProfileViewController: UIViewController {
             logOutButton.heightAnchor.constraint(equalToConstant: 24)
         ])
         
+        updateProfileDetails(profile: profileService.profile)
+        
         func updateProfileDetails(profile: Profile?) {
             guard let profile = profile else {
                 return print("Profile is nil")
@@ -109,7 +111,6 @@ final class ProfileViewController: UIViewController {
             descriptionLabel.text = profile.bio
         }
         
-        updateProfileDetails(profile: profileService.profile)
     }
     
     @objc

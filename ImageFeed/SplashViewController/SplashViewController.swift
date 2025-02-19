@@ -8,11 +8,9 @@
 import UIKit
 
 final class SplashViewController: UIViewController {
-    private let storage = OAuth2TokenStorage()
+    private let storage = OAuth2TokenStorage.shared
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
-    
-//    private let showAuthenticationScreenSegueIdentifier = "showAuthenticationScreen"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +24,7 @@ final class SplashViewController: UIViewController {
         
         if storage.token != nil {
             print("Token received")
-
+            
             guard let token = storage.token else {
                 print("Failed get token")
                 return
@@ -35,7 +33,6 @@ final class SplashViewController: UIViewController {
             fetchProfile(token)
         } else {
             print("Token not found")
-
             showAuthViewController() // Показываем экран авторизации, если токена нет
         }
     }
@@ -73,7 +70,7 @@ final class SplashViewController: UIViewController {
     func didAuthenticate(_ vc: AuthViewController, didAuthenticateWithToken token: String) {
         print("Did Authenticate: \(token)")
         vc.dismiss(animated: true)
-
+        
         guard let token = storage.token else {
             return
         }
@@ -84,9 +81,9 @@ final class SplashViewController: UIViewController {
     
     private func fetchProfile(_ token: String) {
         UIBlockingProgressHUD.show()
-            self.profileService.fetchProfile(token) { [weak self] result in
+        self.profileService.fetchProfile(token) { [weak self] result in
             UIBlockingProgressHUD.dismiss()
-
+            
             guard let self = self else { return }
             switch result {
             case .success (let profile):
@@ -121,9 +118,9 @@ extension SplashViewController: AuthViewControllerDelegate {
             assertionFailure("Error getting authViewController")
             return
         }
-        
+
         authViewController.delegate = self
-        authViewController.modalPresentationStyle = .fullScreen
+        authViewController.modalPresentationStyle = .overFullScreen
         present(authViewController, animated: true)
     }
 }

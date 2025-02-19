@@ -21,22 +21,22 @@ final class ProfileImageService {
     
     static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     
-    private (set) var avatarURL: String? // Хранение url profileImage, в случае успешного запроса
+    private(set) var avatarURL: String? // Хранение url profileImage, в случае успешного запроса
     
     private func makeProfileImageRequest(token: String, username: String) -> URLRequest? {
         guard let baseUrl = URL(string: Constants.defaultBaseURL.absoluteString) else {
-            preconditionFailure("Invalid base URL \(ErrorsList.RequestError.invalidBaseURL)")
+            preconditionFailure("Invalid base URL \(RequestError.invalidBaseURL)")
         }
         guard let url = URL(string:
                                 "/users/\(username)",
                             relativeTo: baseUrl
         ) else {
-            preconditionFailure("Invalid URL Components \(ErrorsList.RequestError.invalidURLComponents)")
+            preconditionFailure("Invalid URL Components \(RequestError.invalidURLComponents)")
         }
         
         var request = URLRequest(url: url)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        request.httpMethod = "GET"
+        request.httpMethod = HTTPMethod.get.rawValue
         
         return request
     }
@@ -45,7 +45,7 @@ final class ProfileImageService {
         assert(Thread.isMainThread)
         
         guard let request = makeProfileImageRequest(token: token, username: username) else {
-            return completion(.failure(ErrorsList.RequestError.invalidRequest))
+            return completion(.failure(RequestError.invalidRequest))
         }
         
         let task = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in

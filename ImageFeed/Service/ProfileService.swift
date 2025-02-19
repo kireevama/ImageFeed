@@ -8,10 +8,10 @@
 import Foundation
 
 struct ProfileResult: Decodable { // Структура для декодирования ответа
-    var username: String
-    var firstName: String
-    var lastName: String?
-    var bio: String?
+    let username: String
+    let firstName: String
+    let lastName: String?
+    let bio: String?
 }
 
 struct Profile { // Структура для использования на UI-слое
@@ -29,18 +29,18 @@ final class ProfileService {
     
     private func makeProfileRequest(token: String) -> URLRequest? {
         guard let baseUrl = URL(string: Constants.defaultBaseURL.absoluteString) else {
-            preconditionFailure("Invalid base URL \(ErrorsList.RequestError.invalidBaseURL)")
+            preconditionFailure("Invalid base URL \(RequestError.invalidBaseURL)")
         }
         guard let url = URL(string:
                                 "/me",
                             relativeTo: baseUrl
         ) else {
-            preconditionFailure("Invalid URL Components \(ErrorsList.RequestError.invalidURLComponents)")
+            preconditionFailure("Invalid URL Components \(RequestError.invalidURLComponents)")
         }
         
         var request = URLRequest(url: url)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        request.httpMethod = "GET"
+        request.httpMethod = HTTPMethod.get.rawValue
         
         return request
     }
@@ -49,7 +49,7 @@ final class ProfileService {
         assert(Thread.isMainThread)
         
         guard let request = makeProfileRequest(token: token) else {
-            return completion(.failure(ErrorsList.RequestError.invalidRequest))
+            return completion(.failure(RequestError.invalidRequest))
         }
         
         let task = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in

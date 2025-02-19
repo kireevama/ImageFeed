@@ -15,7 +15,7 @@ final class OAuth2Service {
     static let shared = OAuth2Service()
     private init() {}
     
-    let oauth2TokenStorage = OAuth2TokenStorage()
+    let oauth2TokenStorage = OAuth2TokenStorage.shared
     private let decoder = JSONDecoder()
     
     private let urlSession = URLSession.shared
@@ -25,7 +25,7 @@ final class OAuth2Service {
     // Создание запроса для получения токена
     private func makeOAuthTokenRequest(code: String) -> URLRequest? {
         guard let baseURL = URL(string: "https://unsplash.com") else {
-            preconditionFailure("Invalid base URL \(ErrorsList.RequestError.invalidBaseURL)")
+            preconditionFailure("Invalid base URL \(RequestError.invalidBaseURL)")
         }
         
         guard let url = URL(string:
@@ -37,11 +37,11 @@ final class OAuth2Service {
                             + "&&grant_type=authorization_code",
                             relativeTo: baseURL
         ) else {
-            preconditionFailure("Invalid URL Components \(ErrorsList.RequestError.invalidURLComponents)")
+            preconditionFailure("Invalid URL Components \(RequestError.invalidURLComponents)")
         }
         
         var request = URLRequest(url: url)
-        request.httpMethod = "POST"
+        request.httpMethod = HTTPMethod.post.rawValue
         return request
     }
     
@@ -49,7 +49,7 @@ final class OAuth2Service {
     func fetchOAuthToken(code: String, completion: @escaping(Result<String, Error>) -> Void) {
         assert(Thread.isMainThread) // проверка, что код выполняется на главном потоке
         guard lastCode != code else {
-            completion(.failure(ErrorsList.RequestError.invalidRequest))
+            completion(.failure(RequestError.invalidRequest))
             return
         }
         
@@ -57,7 +57,7 @@ final class OAuth2Service {
         
         lastCode = code // сохраняем код из запроса
         guard let request = makeOAuthTokenRequest(code: code) else {
-            return completion(.failure(ErrorsList.RequestError.invalidRequest))
+            return completion(.failure(RequestError.invalidRequest))
         }
         
         let task = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
@@ -77,4 +77,3 @@ final class OAuth2Service {
         task.resume()
     }
 }
-

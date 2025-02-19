@@ -59,6 +59,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
                 self.delegate?.didAuthenticate(self, didAuthenticateWithToken: token)
                 print("Token received: \(token)")
             case .failure(let error):
+                UIBlockingProgressHUD.dismiss()
                 self?.showAlertWithError()
                 print("Error: Failed to fetch token \(error)")
             }
@@ -76,11 +77,11 @@ extension AuthViewController {
                                       message: "Не удалось войти в систему",
                                       preferredStyle: .alert)
         
-        let action = UIAlertAction(title: "ОК", style: .default) { _ in
-            self.dismiss(animated: true)
+        let action = UIAlertAction(title: "ОК", style: .default) { [weak self] _ in
+            self?.dismiss(animated: true)
         }
         
         alert.addAction(action)
-        self.present(alert, animated: true)
+        present(alert, animated: true)
     }
 }
