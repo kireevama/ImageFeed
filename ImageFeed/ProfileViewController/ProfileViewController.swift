@@ -6,15 +6,35 @@
 //
 
 import UIKit
+import Kingfisher
 
-class ProfileViewController: UIViewController {
+final class ProfileViewController: UIViewController {
+    private let profileService = ProfileService.shared
+    private let profileImageService = ProfileImageService.shared
+    
+    private let imageView = UIImageView()
+    private var profileImageServiceObserver: NSObjectProtocol?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // profileImage
-        let profileImage = UIImage(named: "Userpick")
-        let imageView = UIImageView(image: profileImage)
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ProfileImageService.didChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                guard let self = self else { return }
+                self.updateAvatar()
+            }
         
+        self.view.backgroundColor = UIColor(named: "YP Black")
+        setupUI()
+        updateAvatar()
+    }
+    
+    private func setupUI() {
+        // profileImage
         imageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(imageView)
         
@@ -79,11 +99,33 @@ class ProfileViewController: UIViewController {
             logOutButton.widthAnchor.constraint(equalToConstant: 24),
             logOutButton.heightAnchor.constraint(equalToConstant: 24)
         ])
-    
+        
+        updateProfileDetails(profile: profileService.profile)
+        
+        func updateProfileDetails(profile: Profile?) {
+            guard let profile = profile else {
+                return print("Profile is nil")
+            }
+            
+            nameLabel.text = profile.name
+            loginLabel.text = profile.loginName
+            descriptionLabel.text = profile.bio
+        }
+        
     }
     
     @objc
     private func didTapLogOutButton() {
         return
+    }
+    
+    private func updateAvatar() {
+        guard
+            let profileImageURL = profileImageService.avatarURL,
+            let url = URL(string: profileImageURL)
+        else { return }
+        
+        let processor = RoundCornerImageProcessor(cornerRadius: 60)
+        imageView.kf.setImage(with: url, placeholder: UIImage(named: "UserPickStub"), options: [.processor(processor)])
     }
 }
