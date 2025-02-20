@@ -225,7 +225,7 @@
         <!--Navigation Controller-->
         <scene sceneID="HE3-uz-rg2">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="taH-ao-U9C" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="TableViewNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="taH-ao-U9C" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="tab_editorial_active" id="9Ia-NE-uuS"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="jnr-qJ-too">
