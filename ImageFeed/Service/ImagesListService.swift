@@ -18,8 +18,11 @@ struct PhotoResult: Decodable { // Структура ответа от Unsplash
 }
 
 struct UrlsResult: Decodable { // Структура для данных из полей urls
+    let raw: String
+    let full: String
+    let regular: String
+    let small: String
     let thumb: String
-    let largeImageURL: String
 }
 
 struct Photo { // Структура для UI части
@@ -64,7 +67,7 @@ final class ImagesListService {
     }
     
     // Функция для получения очередной страницы
-    private func fetchPhotosNextPage(_ token: String, completion: @escaping (Result<[Photo], Error>) -> Void) {
+    func fetchPhotosNextPage(_ token: String, completion: @escaping (Result<[Photo], Error>) -> Void) {
         assert(Thread.isMainThread)
         
                 guard task == nil else {
@@ -91,7 +94,7 @@ final class ImagesListService {
                         date = self?.formatter.date(from: createdDate)
                     }
                     
-                    let photo = Photo(id: photoResult.id, size: (CGSize(width: Double(photoResult.width), height: Double(photoResult.height))), createdAt: date, description: photoResult.description ?? "", thumbImageURL: photoResult.urls.thumb, largeImageURL: photoResult.urls.largeImageURL, isLiked: photoResult.likedByUser)
+                    let photo = Photo(id: photoResult.id, size: (CGSize(width: Double(photoResult.width), height: Double(photoResult.height))), createdAt: date, description: photoResult.description ?? "", thumbImageURL: photoResult.urls.thumb, largeImageURL: photoResult.urls.full, isLiked: photoResult.likedByUser)
                     
                     self?.photos.append(photo)
                     NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: nil)
@@ -107,7 +110,7 @@ final class ImagesListService {
         }
         self.task = task // сохраняем task
         task.resume()
-        photos = []
     }
     
 }
+

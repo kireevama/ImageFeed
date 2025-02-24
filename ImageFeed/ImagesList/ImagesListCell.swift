@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class ImagesListCell: UITableViewCell {
     // MARK: - IBOutlets
@@ -15,4 +16,11 @@ final class ImagesListCell: UITableViewCell {
     
     // MARK: - Properties
     static let reuseIdentifier = "ImagesListCell"
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        // Отменяем загрузку, чтобы избежать багов при переиспользовании ячеек
+        postImageView.kf.cancelDownloadTask()
+    }
 }

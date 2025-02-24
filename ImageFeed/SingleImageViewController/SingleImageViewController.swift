@@ -13,6 +13,8 @@ final class SingleImageViewController: UIViewController {
     @IBOutlet private var scrollView: UIScrollView!
     
     // MARK: - Private properties
+    var imageURL: URL? //new
+    
     var image: UIImage? {
         didSet {
             guard isViewLoaded else { return }
