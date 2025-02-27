@@ -11,13 +11,9 @@ final class TabBarController: UITabBarController {
     override func awakeFromNib() {
         super.awakeFromNib()
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
+        let imagesListViewController = storyboard.instantiateViewController(withIdentifier: "ImagesListViewController")
         
-        guard let navigationController = storyboard.instantiateViewController(withIdentifier: "ImagesListNavigationController") as? UINavigationController else {
-            assertionFailure("Error getting authViewController")
-            return
-        }
-        
-        navigationController.tabBarItem = UITabBarItem(
+        imagesListViewController.tabBarItem = UITabBarItem(
             title: "",
             image: UIImage(named: "tab_editorial_active"),
             selectedImage: nil
@@ -29,6 +25,7 @@ final class TabBarController: UITabBarController {
             image: UIImage(named: "profile_active"),
             selectedImage: nil
         )
-        self.viewControllers = [navigationController, profileViewController]
+        
+        self.viewControllers = [imagesListViewController, profileViewController]
     }
 }

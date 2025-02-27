@@ -127,7 +127,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CiO-FM-G45" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1049" y="385"/>
+            <point key="canvasLocation" x="791" y="-344"/>
         </scene>
         <!--ImagesListViewController-->
         <scene sceneID="tne-QT-ifu">
@@ -165,6 +165,9 @@
                                                     </constraints>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" image="Active" title=""/>
+                                                    <connections>
+                                                        <action selector="didTapLikeButton:" destination="vse-Xq-AgS" eventType="touchUpInside" id="TPR-Yg-OsJ"/>
+                                                    </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="27 августа 2024" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DEJ-yT-zeY">
                                                     <rect key="frame" x="28" y="172" width="102" height="18"/>
@@ -220,31 +223,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="420" y="384"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="HE3-uz-rg2">
-            <objects>
-                <navigationController storyboardIdentifier="ImagesListNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="taH-ao-U9C" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="tab_editorial_active" id="9Ia-NE-uuS"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="jnr-qJ-too">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" name="YP Black"/>
-                        <color key="barTintColor" name="YP White"/>
-                        <navigationBarAppearance key="standardAppearance">
-                            <color key="backgroundColor" name="YP Black"/>
-                        </navigationBarAppearance>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="MQs-f2-3ce"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="knc-Aw-6M0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-296" y="384"/>
+            <point key="canvasLocation" x="1851" y="-344"/>
         </scene>
         <!--Single Image View Controller-->
         <scene sceneID="opA-IV-6X9">
@@ -315,7 +294,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c9G-dI-ZJe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1159" y="384"/>
+            <point key="canvasLocation" x="2603" y="-348"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Ikb-4t-tab">
@@ -343,7 +322,6 @@
         <image name="backward" width="24" height="24"/>
         <image name="logo_of_unsplash" width="60" height="60"/>
         <image name="sharing" width="51" height="51"/>
-        <image name="tab_editorial_active" width="30" height="30"/>
         <namedColor name="YP Background">
             <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

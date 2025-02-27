@@ -11,28 +11,35 @@ struct PhotoResult: Decodable { // Структура ответа от Unsplash
     let id: String
     let width: Int
     let height: Int
-    let createdAt: String?
+    let createdAt: String
     let description: String?
-    var urls: UrlsResult
+    let urls: UrlsResult
     let likedByUser: Bool
 }
 
 struct UrlsResult: Decodable { // Структура для данных из полей urls
-    let raw: String
-    let full: String
-    let regular: String
-    let small: String
     let thumb: String
+    let full: String
 }
 
 struct Photo { // Структура для UI части
     let id: String
     let size: CGSize
-    let createdAt: Date?
-    let description: String?
+    let createdAt: Date
+    let welcomeDescription: String?
     let thumbImageURL: String
     let largeImageURL: String
-    let isLiked: Bool
+    var isLiked: Bool
+    
+    init(photoResult: PhotoResult) {
+        self.id = photoResult.id
+        self.size = CGSize(width: photoResult.width, height: photoResult.height)
+        self.createdAt = ISO8601DateFormatter().date(from: photoResult.createdAt) ?? Date()
+        self.welcomeDescription = photoResult.description
+        self.thumbImageURL = photoResult.urls.thumb
+        self.largeImageURL = photoResult.urls.full
+        self.isLiked = photoResult.likedByUser
+    }
 }
 
 final class ImagesListService {
@@ -42,9 +49,9 @@ final class ImagesListService {
     private var task: URLSessionTask?
     private(set) var photos: [Photo] = [] // Массив для хранения загруженных фото
     private var lastLoadedPage: Int? // Номер последней скачанной страницы
-    private let formatter = ISO8601DateFormatter()
     
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
+    let oauth2TokenStorage = OAuth2TokenStorage.shared
     
     private func makePhotosRequest(token: String, page: Int) -> URLRequest? {
         guard let baseUrl = URL(string: Constants.defaultBaseURL.absoluteString) else {
@@ -52,8 +59,7 @@ final class ImagesListService {
         }
         guard let url = URL(string:
                                 "/photos"
-                            + "?page=\(page)"
-                            + "&&per_page=\(10)",
+                            + "?page=\(page)",
                             relativeTo: baseUrl
         ) else {
             preconditionFailure("Invalid URL Components \(RequestError.invalidURLComponents)")
@@ -67,48 +73,72 @@ final class ImagesListService {
     }
     
     // Функция для получения очередной страницы
-    func fetchPhotosNextPage(_ token: String, completion: @escaping (Result<[Photo], Error>) -> Void) {
+    func fetchPhotosNextPage() {
         assert(Thread.isMainThread)
-        
-                guard task == nil else {
-                    task?.cancel()
-                    return }
-        
-        // Здесь получим страницу номер 1, если ещё не загружали ничего,
-        // и следующую страницу (на единицу больше), если есть предыдущая загруженная страница
-        guard let lastLoadedPage = lastLoadedPage else {
-            lastLoadedPage = 0
+        guard task == nil else {
+            task?.cancel()
             return }
-        let nextPage = lastLoadedPage + 1
         
+        guard let token = oauth2TokenStorage.token else { return }
+        let nextPage = (lastLoadedPage ?? 0) + 1
         guard let request = makePhotosRequest(token: token, page: nextPage) else {
-            return completion(.failure(RequestError.invalidRequest))
+            print("Invalid request in ImagesListService")
+            return
         }
         
         let task = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
             switch result {
-            case .success(let data):
-                for photoResult in data {
-                    var date: Date?
-                    if let createdDate = photoResult.createdAt {
-                        date = self?.formatter.date(from: createdDate)
-                    }
-                    
-                    let photo = Photo(id: photoResult.id, size: (CGSize(width: Double(photoResult.width), height: Double(photoResult.height))), createdAt: date, description: photoResult.description ?? "", thumbImageURL: photoResult.urls.thumb, largeImageURL: photoResult.urls.full, isLiked: photoResult.likedByUser)
-                    
-                    self?.photos.append(photo)
-                    NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: nil)
-                    DispatchQueue.main.async {
-                        completion(.success(self?.photos ?? []))
-                    }
-                }
+            case .success(let photoResult):
+                self?.photos.append(contentsOf: photoResult.map(Photo.init))
+                NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: nil)
+                self?.lastLoadedPage = nextPage
             case .failure(let error):
                 print("ProfileService: NetworkError \(error.localizedDescription)")
-                completion(.failure(error))
+            }
+            self?.task = nil
+        }
+        self.task = task
+        task.resume()
+    }
+    
+    func makeLikeRequest(token: String ,photoId: String, isLike: Bool) -> URLRequest {
+        guard let url = URL(string: Constants.defaultBaseURL.absoluteString + "/photos/" + photoId + "/like") else {
+            preconditionFailure("Invalid base URL \(RequestError.invalidBaseURL)")
+        }
+        
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        if isLike == true {
+            request.httpMethod = HTTPMethod.post.rawValue
+        } else {
+            request.httpMethod = HTTPMethod.delete.rawValue
+        }
+        
+        return request
+    }
+    
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let token = oauth2TokenStorage.token else { return }
+        
+        let request = makeLikeRequest(token: token, photoId: photoId, isLike: isLike)
+        
+        let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+            if let error = error {
+                print("[ProfileService]: Ошибка - \(error.localizedDescription)")
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
+                return
             }
             
+            if let index = self?.photos.firstIndex(where: { $0.id == photoId }) {
+                guard var photo = self?.photos[index] else { return }
+                photo.isLiked = !photo.isLiked
+                self?.photos[index] = photo
+            }
+            completion(.success(()))
         }
-        self.task = task // сохраняем task
         task.resume()
     }
     
