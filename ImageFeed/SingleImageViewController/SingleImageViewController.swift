@@ -6,16 +6,18 @@
 //
 
 import UIKit
+import Kingfisher
+import ProgressHUD
 
 final class SingleImageViewController: UIViewController {
     // MARK: - IBOutlets
     @IBOutlet private var singleImageUIView: UIImageView!
     @IBOutlet private var scrollView: UIScrollView!
     
-    // MARK: - Private properties
-    var imageURL: URL? //new
+    // MARK: - Properties
+    var imageURL: URL?
     
-    var image: UIImage? {
+    private var image: UIImage? {
         didSet {
             guard isViewLoaded else { return }
             singleImageUIView.image = image
@@ -29,15 +31,45 @@ final class SingleImageViewController: UIViewController {
     // MARK: - Override funcs
     override func viewDidLoad() {
         super.viewDidLoad()
-        singleImageUIView.image = self.image
-        
-        //увеличиваем катинку на весь экран
-        guard let image = image else { return }
-        rescaleAndCenterImageInScrollView(image: image)
+//        singleImageUIView.image = self.image
+//
+//        //увеличиваем катинку на весь экран
+//        guard let image = image else { return }
+//        rescaleAndCenterImageInScrollView(image: image)
         
         // Значения для зума
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
+        
+        if let url = imageURL {
+            UIBlockingProgressHUD.show()
+            
+            let placeholder = UIImage(named: "placeholder")
+            
+            singleImageUIView.kf.setImage(
+                with: url,
+                placeholder: placeholder,
+                options: nil,
+                progressBlock: nil
+            ) { [weak self] result in
+                switch result {
+                case .success(let result):
+                    DispatchQueue.main.async {
+                        UIBlockingProgressHUD.dismiss()
+                        self?.image = result.image
+                    }
+                case .failure(let error):
+                    print("Error get image: \(error)")
+                }
+            }
+        }
+        
+        singleImageUIView.image = self.image
+        
+        //увеличиваем катинку на весь экран
+        guard let image = image else { return }
+        singleImageUIView.frame.size = image.size
+        rescaleAndCenterImageInScrollView(image: image)
     }
     
     // MARK: - IBActions
@@ -53,7 +85,6 @@ final class SingleImageViewController: UIViewController {
     }
 }
 
-
 extension SingleImageViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return singleImageUIView
@@ -62,7 +93,7 @@ extension SingleImageViewController: UIScrollViewDelegate {
 
 // MARK: - Extensions
 extension SingleImageViewController {
-    private func rescaleAndCenterImageInScrollView(image: UIImage) {
+    func rescaleAndCenterImageInScrollView(image: UIImage) {
         let minZoomScale = scrollView.minimumZoomScale
         let maxZoomScale = scrollView.maximumZoomScale
         view.layoutIfNeeded()

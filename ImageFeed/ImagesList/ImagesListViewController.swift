@@ -67,6 +67,7 @@ final class ImagesListViewController: UIViewController {
             imagesListService.fetchPhotosNextPage()
         }
     }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == showSingleImageSegueIdentifier {
             guard
@@ -77,14 +78,17 @@ final class ImagesListViewController: UIViewController {
                 return
             }
             
+            UIBlockingProgressHUD.show()
+            
             let photo = photos[indexPath.row]
-            guard !photo.largeImageURL.isEmpty, let url = URL(string: photo.largeImageURL) else {
+            
+            guard let url = URL(string: photo.largeImageURL) else {
                 assertionFailure("Invalid or empty URL for image")
                 return
             }
+            
             viewController.imageURL = url
-        } else {
-            super.prepare(for: segue, sender: sender)
+            
         }
     }
 }
@@ -170,17 +174,17 @@ extension ImagesListViewController: UITableViewDelegate {
 
 extension ImagesListViewController: ImagesListCellDelegate {
     func imageListCellDidTapLike(_ cell: ImagesListCell) {
-
+        
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         let photo = photos[indexPath.row]
-
+        
         UIBlockingProgressHUD.show()
         imagesListService.changeLike(photoId: photo.id, isLike: !photo.isLiked) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success:
                     guard let self = self else { return }
-
+                    
                     self.photos = self.imagesListService.photos
                     cell.setIsLiked(isLiked: self.photos[indexPath.row].isLiked)
                     UIBlockingProgressHUD.dismiss()
