@@ -31,11 +31,6 @@ final class SingleImageViewController: UIViewController {
     // MARK: - Override funcs
     override func viewDidLoad() {
         super.viewDidLoad()
-//        singleImageUIView.image = self.image
-//
-//        //увеличиваем катинку на весь экран
-//        guard let image = image else { return }
-//        rescaleAndCenterImageInScrollView(image: image)
         
         // Значения для зума
         scrollView.minimumZoomScale = 0.1
