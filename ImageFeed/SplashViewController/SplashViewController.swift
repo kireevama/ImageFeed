@@ -113,7 +113,7 @@ final class SplashViewController: UIViewController {
 }
 
 extension SplashViewController: AuthViewControllerDelegate {
-    private func showAuthViewController() {
+     func showAuthViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
         guard let navigationController = storyboard.instantiateViewController(withIdentifier: "AuthNavigationController") as? UINavigationController else {
             assertionFailure("Error getting authViewController")

@@ -67,4 +67,8 @@ final class ProfileImageService {
         task.resume()
         
     }
+    
+    func deleteProfileImage() {
+        avatarURL = nil
+    }
 }

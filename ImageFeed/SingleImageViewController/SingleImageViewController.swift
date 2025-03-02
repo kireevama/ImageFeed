@@ -35,7 +35,18 @@ final class SingleImageViewController: UIViewController {
         // Значения для зума
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
+
+        showImage()
         
+        singleImageUIView.image = self.image
+        
+        //увеличиваем катинку на весь экран
+        guard let image = image else { return }
+        singleImageUIView.frame.size = image.size
+        rescaleAndCenterImageInScrollView(image: image)
+    }
+    
+    private func showImage() {
         if let url = imageURL {
             UIBlockingProgressHUD.show()
             
@@ -58,13 +69,6 @@ final class SingleImageViewController: UIViewController {
                 }
             }
         }
-        
-        singleImageUIView.image = self.image
-        
-        //увеличиваем катинку на весь экран
-        guard let image = image else { return }
-        singleImageUIView.frame.size = image.size
-        rescaleAndCenterImageInScrollView(image: image)
     }
     
     // MARK: - IBActions

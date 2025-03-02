@@ -7,10 +7,13 @@
 
 import UIKit
 import Kingfisher
+import WebKit
 
 final class ProfileViewController: UIViewController {
+    
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
+    private let profileLogoutService = ProfileLogoutService.shared
     
     private let imageView = UIImageView()
     private var profileImageServiceObserver: NSObjectProtocol?
@@ -116,7 +119,24 @@ final class ProfileViewController: UIViewController {
     
     @objc
     private func didTapLogOutButton() {
-        return
+        profileLogoutService.logout()
+        
+        let alert = UIAlertController(title: "Уверены, что хотите выйти?", message: nil, preferredStyle: .alert)
+        let actionYes = UIAlertAction(title: "Да", style: .default) { _ in
+            DispatchQueue.main.async {
+                guard let window = UIApplication.shared.windows.first else { return }
+                window.rootViewController = SplashViewController()
+                window.makeKeyAndVisible()
+            }
+        }
+        
+        let actionNo = UIAlertAction(title: "Нет", style: .cancel) { [weak self] _ in
+            self?.dismiss(animated: true)
+        }
+        
+        alert.addAction(actionYes)
+        alert.addAction(actionNo)
+        present(alert, animated: true)
     }
     
     private func updateAvatar() {
