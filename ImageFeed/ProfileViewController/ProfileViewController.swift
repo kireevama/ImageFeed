@@ -121,7 +121,7 @@ final class ProfileViewController: UIViewController {
     private func didTapLogOutButton() {
         profileLogoutService.logout()
         
-        let alert = UIAlertController(title: "Уверены, что хотите выйти?", message: nil, preferredStyle: .alert)
+        let alert = UIAlertController(title: "Пока, пока!", message: "Уверены что хотите выйти?", preferredStyle: .alert)
         let actionYes = UIAlertAction(title: "Да", style: .default) { _ in
             DispatchQueue.main.async {
                 guard let window = UIApplication.shared.windows.first else { return }

@@ -35,7 +35,7 @@ final class SingleImageViewController: UIViewController {
         // Значения для зума
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
-
+        
         showImage()
         
         singleImageUIView.image = self.image
@@ -47,36 +47,37 @@ final class SingleImageViewController: UIViewController {
     }
     
     private func showImage() {
-        if let url = imageURL {
-            UIBlockingProgressHUD.show()
-            
-            let placeholder = UIImage(named: "placeholder")
-            
-            singleImageUIView.kf.setImage(
-                with: url,
-                placeholder: placeholder,
-                options: nil,
-                progressBlock: nil
-            ) { [weak self] result in
-                switch result {
-                case .success(let result):
-                    DispatchQueue.main.async {
-                        UIBlockingProgressHUD.dismiss()
-                        self?.image = result.image
-                    }
-                case .failure(let error):
-                    print("Error get image: \(error)")
+        guard let url = imageURL else { return }
+        UIBlockingProgressHUD.show()
+        
+        let placeholder = UIImage(named: "placeholder")
+        
+        singleImageUIView.kf.setImage(
+            with: url,
+            placeholder: placeholder,
+            options: nil,
+            progressBlock: nil
+        ) { [weak self] result in
+            switch result {
+            case .success(let result):
+                DispatchQueue.main.async {
+                    UIBlockingProgressHUD.dismiss()
+                    self?.image = result.image
                 }
+            case .failure(let error):
+                UIBlockingProgressHUD.dismiss()
+                print("Error get image: \(error)")
+                return
             }
         }
     }
     
     // MARK: - IBActions
-    @IBAction func didTapBackButton(_ sender: Any) {
+    @IBAction private func didTapBackButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func didTapShareButton(_ sender: Any) {
+    @IBAction private func didTapShareButton(_ sender: Any) {
         guard let image = image else { return }
         let share = UIActivityViewController(activityItems: [image], applicationActivities: nil)
         
@@ -92,7 +93,7 @@ extension SingleImageViewController: UIScrollViewDelegate {
 
 // MARK: - Extensions
 extension SingleImageViewController {
-    func rescaleAndCenterImageInScrollView(image: UIImage) {
+    private func rescaleAndCenterImageInScrollView(image: UIImage) {
         let minZoomScale = scrollView.minimumZoomScale
         let maxZoomScale = scrollView.maximumZoomScale
         view.layoutIfNeeded()

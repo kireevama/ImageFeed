@@ -24,8 +24,8 @@ final class ImagesListViewController: UIViewController {
         return formatter
     }()
     
-    let oauth2TokenStorage = OAuth2TokenStorage.shared
-    var imagesListService = ImagesListService.shared
+    private let oauth2TokenStorage = OAuth2TokenStorage.shared
+    private var imagesListService = ImagesListService.shared
     
     // MARK: - Override funcs
     override func viewDidLoad() {
@@ -95,7 +95,7 @@ final class ImagesListViewController: UIViewController {
 
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return photos.count
+        photos.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -140,15 +140,15 @@ extension ImagesListViewController {
                     print("Error loading image: \(error)")
                 }
             }
-            cell.dateLabel.text = dateFormatter.string(from: Date())
             
-            if photo.isLiked {
-                let likeImage = UIImage(named: "like_active")
-                cell.likeButton.setImage(likeImage, for: .normal)
+            if let createdDate = photo.createdAt {
+                cell.dateLabel.text = dateFormatter.string(from: createdDate)
             } else {
-                let likeImage = UIImage(named: "like_no_active")
-                cell.likeButton.setImage(likeImage, for: .normal)
+                cell.dateLabel.text = ""
             }
+            
+            let likeImage = UIImage(named: photo.isLiked ? "like_active" : "like_no_active")
+            cell.likeButton.setImage(likeImage, for: .normal)
         }
     }
 }
