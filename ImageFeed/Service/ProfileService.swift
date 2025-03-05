@@ -7,20 +7,6 @@
 
 import Foundation
 
-struct ProfileResult: Decodable { // Структура для декодирования ответа
-    let username: String
-    let firstName: String
-    let lastName: String?
-    let bio: String?
-}
-
-struct Profile { // Структура для использования на UI-слое
-    let username: String
-    let name: String // Конкантенация имени и фамилии
-    let loginName: String? // username с @ вначале
-    let bio: String?
-}
-
 final class ProfileService {
     static let shared = ProfileService()
     private init() {}
@@ -68,5 +54,9 @@ final class ProfileService {
         }
         
         task.resume()
+    }
+    
+    func deleteProfile() {
+        profile = nil
     }
 }

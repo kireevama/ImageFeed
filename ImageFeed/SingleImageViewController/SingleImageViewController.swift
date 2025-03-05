@@ -6,14 +6,18 @@
 //
 
 import UIKit
+import Kingfisher
+import ProgressHUD
 
 final class SingleImageViewController: UIViewController {
     // MARK: - IBOutlets
     @IBOutlet private var singleImageUIView: UIImageView!
     @IBOutlet private var scrollView: UIScrollView!
     
-    // MARK: - Private properties
-    var image: UIImage? {
+    // MARK: - Properties
+    var imageURL: URL?
+    
+    private var image: UIImage? {
         didSet {
             guard isViewLoaded else { return }
             singleImageUIView.image = image
@@ -27,30 +31,59 @@ final class SingleImageViewController: UIViewController {
     // MARK: - Override funcs
     override func viewDidLoad() {
         super.viewDidLoad()
-        singleImageUIView.image = self.image
-        
-        //увеличиваем катинку на весь экран
-        guard let image = image else { return }
-        rescaleAndCenterImageInScrollView(image: image)
         
         // Значения для зума
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
+        
+        showImage()
+        
+        singleImageUIView.image = self.image
+        
+        //увеличиваем катинку на весь экран
+        guard let image = image else { return }
+        singleImageUIView.frame.size = image.size
+        rescaleAndCenterImageInScrollView(image: image)
+    }
+    
+    private func showImage() {
+        guard let url = imageURL else { return }
+        UIBlockingProgressHUD.show()
+        
+        let placeholder = UIImage(named: "placeholder")
+        
+        singleImageUIView.kf.setImage(
+            with: url,
+            placeholder: placeholder,
+            options: nil,
+            progressBlock: nil
+        ) { [weak self] result in
+            switch result {
+            case .success(let result):
+                DispatchQueue.main.async {
+                    UIBlockingProgressHUD.dismiss()
+                    self?.image = result.image
+                }
+            case .failure(let error):
+                UIBlockingProgressHUD.dismiss()
+                print("Error get image: \(error)")
+                return
+            }
+        }
     }
     
     // MARK: - IBActions
-    @IBAction func didTapBackButton(_ sender: Any) {
+    @IBAction private func didTapBackButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func didTapShareButton(_ sender: Any) {
+    @IBAction private func didTapShareButton(_ sender: Any) {
         guard let image = image else { return }
         let share = UIActivityViewController(activityItems: [image], applicationActivities: nil)
         
         present(share, animated: true, completion: nil)
     }
 }
-
 
 extension SingleImageViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {

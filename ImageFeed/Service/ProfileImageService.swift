@@ -7,14 +7,6 @@
 
 import Foundation
 
-struct UserResult: Decodable {
-    let profileImage: ProfileImageUrl
-}
-
-struct ProfileImageUrl: Decodable {
-    let small: String
-}
-
 final class ProfileImageService {
     static let shared = ProfileImageService()
     private init() {}
@@ -66,5 +58,9 @@ final class ProfileImageService {
         
         task.resume()
         
+    }
+    
+    func deleteProfileImage() {
+        avatarURL = nil
     }
 }

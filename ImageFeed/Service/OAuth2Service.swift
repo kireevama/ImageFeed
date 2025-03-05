@@ -7,15 +7,11 @@
 
 import Foundation
 
-struct OAuthTokenResponseBody: Decodable {
-    var accessToken: String
-}
-
 final class OAuth2Service {
     static let shared = OAuth2Service()
     private init() {}
     
-    let oauth2TokenStorage = OAuth2TokenStorage.shared
+    private let oauth2TokenStorage = OAuth2TokenStorage.shared
     private let decoder = JSONDecoder()
     
     private let urlSession = URLSession.shared
