@@ -11,6 +11,7 @@ protocol WebViewPresenterProtocol {
     var view: WebViewViewControllerProtocol? { get set }
     func viewDidLoad()
     func didUpdateProgressValue(_ newValue: Double)
+    func code(from url: URL) -> String?
 }
 
 final class WebViewPresenter: WebViewPresenterProtocol {
@@ -57,6 +58,18 @@ final class WebViewPresenter: WebViewPresenterProtocol {
         abs(value - 1.0) <= 0.0001
     }
     
-    
+    func code(from url: URL) -> String? {
+            if
+                let urlComponents = URLComponents(string: url.absoluteString),
+                urlComponents.path == "/oauth/authorize/native",
+                let items = urlComponents.queryItems,
+                let codeItem = items.first(where: { $0.name == "code" })
+            {
+                print("Code value: \(String(describing: codeItem.value))")
+                return codeItem.value
+            } else {
+                return nil
+            }
+        }
     
 }
