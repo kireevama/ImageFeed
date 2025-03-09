@@ -8,21 +8,21 @@
 import UIKit
 import WebKit
 
-final class WebViewViewController: UIViewController {
-    
+protocol WebViewViewControllerProtocol: AnyObject {
+    var presenter: WebViewPresenterProtocol? { get set }
+    func load(request: URLRequest)
+}
+
+final class WebViewViewController: UIViewController, WebViewViewControllerProtocol {
     @IBOutlet private var webView: WKWebView!
     @IBOutlet private var progressView: UIProgressView!
+    
+    var presenter: WebViewPresenterProtocol?
     
     private var estimatedProgressObservation: NSKeyValueObservation? // KVO для обновления прогресса
     weak var delegate: WebViewViewControllerDelegate?
     
-    enum WebViewConstants {
-        static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
-    }
-    
     override func viewDidLoad() {
-        loadAuthView()
-        
         estimatedProgressObservation = webView.observe(
             \.estimatedProgress,
              options: [],
@@ -33,6 +33,8 @@ final class WebViewViewController: UIViewController {
         
         progressView.progressTintColor = UIColor(named: "YP Black")
         webView.navigationDelegate = self
+        
+        presenter?.viewDidLoad()
     }
     
     private func updateProgress() {
@@ -40,26 +42,7 @@ final class WebViewViewController: UIViewController {
         progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
     }
     
-    // Формирование адреса запроса и загрузка экрана авторизации
-    private func loadAuthView() {
-        guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else {
-            print("Error unwrap urlComponents")
-            return
-        }
-        
-        urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: Constants.accessKey),
-            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
-            URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "scope", value: Constants.accessScope)
-        ]
-        
-        guard let url = urlComponents.url else {
-            print("Error unwrap url")
-            return
-        }
-        
-        let request = URLRequest(url: url)
+    func load(request: URLRequest) {
         webView.load(request)
     }
 }
