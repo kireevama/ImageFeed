@@ -18,11 +18,11 @@ final class WebViewPresenter: WebViewPresenterProtocol {
     weak var view: WebViewViewControllerProtocol?
     
     func viewDidLoad() {
-        enum WebViewConstants {
-            static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
-        }
+//        enum WebViewConstants {
+//            static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
+//        }
         
-        guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else {
+        guard var urlComponents = URLComponents(string: Constants.unsplashAuthorizeURLString) else {
             print("Error unwrap urlComponents")
             return
         }

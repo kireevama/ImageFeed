@@ -14,7 +14,7 @@
 		4723E9A52CF22493007E2C1D /* SF-Pro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4723E9A42CF22493007E2C1D /* SF-Pro-Regular.ttf */; };
 		4723E9A72CF22564007E2C1D /* SF-Pro-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4723E9A62CF22564007E2C1D /* SF-Pro-Bold.otf */; };
 		4723E9A92CF22953007E2C1D /* customFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4723E9A82CF22953007E2C1D /* customFonts.swift */; };
-		4737AEA92D02CDEE0096A5EC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4737AEA82D02CDEE0096A5EC /* Constants.swift */; };
+		4737AEA92D02CDEE0096A5EC /* AuthConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4737AEA82D02CDEE0096A5EC /* AuthConfiguration.swift */; };
 		4744025D2D6731190079C9F6 /* ImagesListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4744025C2D6731190079C9F6 /* ImagesListService.swift */; };
 		4757D5592D73398100659948 /* ProfileLogoutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4757D5582D73398100659948 /* ProfileLogoutService.swift */; };
 		475DC05E2CA1D18600D4F59F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475DC05D2CA1D18600D4F59F /* AppDelegate.swift */; };
@@ -65,7 +65,7 @@
 		4723E9A62CF22564007E2C1D /* SF-Pro-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Bold.otf"; sourceTree = "<group>"; };
 		4723E9A82CF22953007E2C1D /* customFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customFonts.swift; sourceTree = "<group>"; };
 		4735034F2D691EF000D0E86F /* ImageFeedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageFeedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		4737AEA82D02CDEE0096A5EC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		4737AEA82D02CDEE0096A5EC /* AuthConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthConfiguration.swift; sourceTree = "<group>"; };
 		4744025C2D6731190079C9F6 /* ImagesListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListService.swift; sourceTree = "<group>"; };
 		4757D5582D73398100659948 /* ProfileLogoutService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileLogoutService.swift; sourceTree = "<group>"; };
 		475DC05A2CA1D18600D4F59F /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -122,6 +122,7 @@
 		4707DEBF2D2745E500D7DF1C /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				4737AEA82D02CDEE0096A5EC /* AuthConfiguration.swift */,
 				4707DEC02D2745FE00D7DF1C /* AuthViewController.swift */,
 				477DC39B2D285A1F0040BEDE /* WebViewViewControllerDelegateProtocol.swift */,
 				471E871C2D31D08800E82482 /* OAuth2TokenStorage.swift */,
@@ -181,7 +182,6 @@
 				479D93D82D352BED007DC2E2 /* SplashViewController */,
 				4778AAF92D4E7D5900D9A617 /* Service */,
 				4778AAFE2D4E92CD00D9A617 /* ProgressHUD */,
-				4778AAFA2D4E7D9500D9A617 /* Constants */,
 				4778AAFD2D4E92AE00D9A617 /* Extensions */,
 				479E056E2CA53A6E00027F08 /* ImagesList */,
 				475DC05D2CA1D18600D4F59F /* AppDelegate.swift */,
@@ -211,14 +211,6 @@
 				4757D5582D73398100659948 /* ProfileLogoutService.swift */,
 			);
 			path = Service;
-			sourceTree = "<group>";
-		};
-		4778AAFA2D4E7D9500D9A617 /* Constants */ = {
-			isa = PBXGroup;
-			children = (
-				4737AEA82D02CDEE0096A5EC /* Constants.swift */,
-			);
-			path = Constants;
 			sourceTree = "<group>";
 		};
 		4778AAFD2D4E92AE00D9A617 /* Extensions */ = {
@@ -448,7 +440,7 @@
 				47E34B412D777948003CA6A1 /* PhotoResult.swift in Sources */,
 				4707DEC12D2745FE00D7DF1C /* AuthViewController.swift in Sources */,
 				47E34B4A2D777BB6003CA6A1 /* ProfileResult.swift in Sources */,
-				4737AEA92D02CDEE0096A5EC /* Constants.swift in Sources */,
+				4737AEA92D02CDEE0096A5EC /* AuthConfiguration.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
