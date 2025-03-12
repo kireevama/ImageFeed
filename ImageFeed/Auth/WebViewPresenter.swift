@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol WebViewPresenterProtocol {
+public protocol WebViewPresenterProtocol {
     var view: WebViewViewControllerProtocol? { get set }
     func viewDidLoad()
     func didUpdateProgressValue(_ newValue: Double)
@@ -23,25 +23,6 @@ final class WebViewPresenter: WebViewPresenterProtocol {
     }
     
     func viewDidLoad() {
-//        guard var urlComponents = URLComponents(string: Constants.unsplashAuthorizeURLString) else {
-//            print("Error unwrap urlComponents")
-//            return
-//        }
-        
-//        urlComponents.queryItems = [
-//            URLQueryItem(name: "client_id", value: Constants.accessKey),
-//            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
-//            URLQueryItem(name: "response_type", value: "code"),
-//            URLQueryItem(name: "scope", value: Constants.accessScope)
-//        ]
-//
-//        guard let url = urlComponents.url else {
-//            print("Error unwrap url")
-//            return
-//        }
-//
-//        let request = URLRequest(url: url)
-        
         guard let request = authHelper.authRequest() else { return }
         
         view?.load(request: request)
@@ -61,21 +42,7 @@ final class WebViewPresenter: WebViewPresenterProtocol {
     }
     
     func code(from url: URL) -> String? {
-            authHelper.code(from: url)
-        }
-    
-//    func code(from url: URL) -> String? {
-//            if
-//                let urlComponents = URLComponents(string: url.absoluteString),
-//                urlComponents.path == "/oauth/authorize/native",
-//                let items = urlComponents.queryItems,
-//                let codeItem = items.first(where: { $0.name == "code" })
-//            {
-//                print("Code value: \(String(describing: codeItem.value))")
-//                return codeItem.value
-//            } else {
-//                return nil
-//            }
-//        }
+        authHelper.code(from: url)
+    }
     
 }

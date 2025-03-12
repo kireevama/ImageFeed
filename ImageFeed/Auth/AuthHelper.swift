@@ -46,8 +46,6 @@ final class AuthHelper: AuthHelperProtocol {
         return url
     }
     
-    
-    
     func code(from url: URL) -> String? {
         if
             let urlComponents = URLComponents(string: url.absoluteString),
