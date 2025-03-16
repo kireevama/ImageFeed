@@ -9,9 +9,9 @@ import ImageFeed
 import Foundation
 
 final class WebViewViewControllerSpy: WebViewViewControllerProtocol {
-    var presenter: ImageFeed.WebViewPresenterProtocol?
+    var presenter: WebViewPresenterProtocol?
     
-    var loadRequestCalled: Bool = false
+    var loadRequestCalled = false
     
     func load(request: URLRequest) {
         loadRequestCalled = true

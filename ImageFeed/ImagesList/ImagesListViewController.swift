@@ -9,7 +9,13 @@ import UIKit
 import Kingfisher
 import ProgressHUD
 
-final class ImagesListViewController: UIViewController {
+public protocol ImagesListViewControllerProtocol: AnyObject {
+    var presenter: ImagesListViewPresenterProtocol? { get set }
+}
+
+final class ImagesListViewController: UIViewController, ImagesListViewControllerProtocol {
+    var presenter: ImagesListViewPresenterProtocol?
+    
     // MARK: - IBOutlet
     @IBOutlet private var tableView: UITableView!
     
@@ -47,6 +53,12 @@ final class ImagesListViewController: UIViewController {
         imagesListService.fetchPhotosNextPage()
     }
     
+    //new
+    func configure(_ presenter: ProfilePresenterProtocol) {
+             self.presenter = presenter
+             presenter.view = self
+         }
+    //new
     
     func updateTableViewAnimated() {
         let oldCount = photos.count

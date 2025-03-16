@@ -9,34 +9,33 @@ import UIKit
 import Kingfisher
 import WebKit
 
-final class ProfileViewController: UIViewController {
+public protocol ProfileViewControllerProtocol: AnyObject {
+    var presenter: ProfilePresenterProtocol? { get set }
+    func updateAvatar()
+    func didTapLogOutButton()
+}
+
+final class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
+    var presenter: ProfilePresenterProtocol?
     
     private let profileService = ProfileService.shared
-    private let profileImageService = ProfileImageService.shared
-    private let profileLogoutService = ProfileLogoutService.shared
     
     private let imageView = UIImageView()
-    private var profileImageServiceObserver: NSObjectProtocol?
+    private let nameLabel = UILabel()
+    private let loginLabel = UILabel()
+    private let descriptionLabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        profileImageServiceObserver = NotificationCenter.default
-            .addObserver(
-                forName: ProfileImageService.didChangeNotification,
-                object: nil,
-                queue: .main
-            ) { [weak self] _ in
-                guard let self = self else { return }
-                self.updateAvatar()
-            }
+        presenter?.viewDidLoad()
         
         self.view.backgroundColor = UIColor(named: "YP Black")
         setupUI()
         updateAvatar()
     }
     
-    private func setupUI() {
+    func setupUI() {
         // profileImage
         imageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(imageView)
@@ -49,19 +48,16 @@ final class ProfileViewController: UIViewController {
         ])
         
         // nameLabel
-        let nameLabel = UILabel()
         nameLabel.text = "Екатерина Новикова"
         nameLabel.textColor = UIColor(named: "YP White")
         nameLabel.font = UIFont(name: CustomFonts.bold.rawValue, size: 23)
-        
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nameLabel)
-        
         nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
         nameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8).isActive = true
         
+        
         // loginLabel
-        let loginLabel = UILabel()
         loginLabel.text = "@ekaterina_nov"
         loginLabel.textColor = UIColor(named: "YP Gray")
         loginLabel.font = UIFont(name: CustomFonts.regular.rawValue, size: 13)
@@ -73,7 +69,6 @@ final class ProfileViewController: UIViewController {
         loginLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8).isActive = true
         
         // descriptionLabel
-        let descriptionLabel = UILabel()
         descriptionLabel.text = "Hello, world!"
         descriptionLabel.textColor = UIColor(named: "YP White")
         descriptionLabel.font = UIFont(name: CustomFonts.regular.rawValue, size: 13)
@@ -104,30 +99,31 @@ final class ProfileViewController: UIViewController {
         ])
         
         updateProfileDetails(profile: profileService.profile)
-        
-        func updateProfileDetails(profile: Profile?) {
-            guard let profile = profile else {
-                return print("Profile is nil")
-            }
-            
-            nameLabel.text = profile.name
-            loginLabel.text = profile.loginName
-            descriptionLabel.text = profile.bio
+    }
+    
+    func updateProfileDetails(profile: Profile?) {
+        guard let profile = profile else {
+            return print("Profile is nil")
         }
+
+        nameLabel.text = profile.name
+        loginLabel.text = profile.loginName
+        descriptionLabel.text = profile.bio
+    }
+    
+    func updateAvatar() {
+        guard let url = presenter?.getAvatarUrl() else { return }
         
+        let processor = RoundCornerImageProcessor(cornerRadius: 60)
+        imageView.kf.setImage(with: url, placeholder: UIImage(named: "UserPickStub"), options: [.processor(processor)])
     }
     
     @objc
-    private func didTapLogOutButton() {
-        profileLogoutService.logout()
-        
+    func didTapLogOutButton() {
         let alert = UIAlertController(title: "Пока, пока!", message: "Уверены что хотите выйти?", preferredStyle: .alert)
-        let actionYes = UIAlertAction(title: "Да", style: .default) { _ in
-            DispatchQueue.main.async {
-                guard let window = UIApplication.shared.windows.first else { return }
-                window.rootViewController = SplashViewController()
-                window.makeKeyAndVisible()
-            }
+        let actionYes = UIAlertAction(title: "Да", style: .default) { [weak self] _ in
+            self?.presenter?.logOut()
+            self?.swichToSplashViewController()
         }
         
         let actionNo = UIAlertAction(title: "Нет", style: .cancel) { [weak self] _ in
@@ -139,13 +135,12 @@ final class ProfileViewController: UIViewController {
         present(alert, animated: true)
     }
     
-    private func updateAvatar() {
-        guard
-            let profileImageURL = profileImageService.avatarURL,
-            let url = URL(string: profileImageURL)
-        else { return }
-        
-        let processor = RoundCornerImageProcessor(cornerRadius: 60)
-        imageView.kf.setImage(with: url, placeholder: UIImage(named: "UserPickStub"), options: [.processor(processor)])
+    func swichToSplashViewController() {
+        DispatchQueue.main.async {
+            guard let window = UIApplication.shared.windows.first else { return }
+            window.rootViewController = SplashViewController()
+            window.makeKeyAndVisible()
+        }
     }
+    
 }
