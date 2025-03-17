@@ -7,7 +7,14 @@
 
 import Foundation
 
-final class ImagesListService {
+public protocol ImagesListServiceProtocol: AnyObject {
+    var photos: [Photo] { get }
+    func fetchPhotosNextPage()
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void)
+    func deletePhotos()
+}
+
+final class ImagesListService: ImagesListServiceProtocol {
     static let shared = ImagesListService()
     private init() {}
     
@@ -47,7 +54,7 @@ final class ImagesListService {
         task.resume()
     }
     
-    private func makePhotosRequest(token: String, page: Int) -> URLRequest? {
+    func makePhotosRequest(token: String, page: Int) -> URLRequest? {
         guard let baseUrl = URL(string: Constants.defaultBaseURL.absoluteString) else {
             preconditionFailure("Invalid base URL \(RequestError.invalidBaseURL)")
         }
