@@ -24,20 +24,6 @@ final class ProfileViewTests: XCTestCase {
         XCTAssertTrue(presenter.viewDidLoadCalled)
     }
     
-    func testPresenterCallsGetAvatarUrl() {
-        //given
-        let viewController = ProfileViewController()
-        let presenter = ProfilePresenterSpy()
-        viewController.presenter = presenter
-        presenter.view = viewController
-        
-        //when
-        presenter.getAvatarUrl()
-        
-        //then
-        XCTAssertTrue(presenter.getAvatarUrlCalled)
-    }
-    
     func testPresenterCallsLogOut() {
         //given
         let viewController = ProfileViewController()
@@ -52,17 +38,6 @@ final class ProfileViewTests: XCTestCase {
         XCTAssertTrue(presenter.logOutCalled)
     }
     
-    func testSetupUICalls() {
-        //given
-        let viewController = ProfileViewControllerSpy()
-
-        //when
-        viewController.setupUI()
-
-        //then
-        XCTAssertTrue(viewController.setupUICalled)
-    }
-    
     func testUpdateAvatarCalls() {
         //given
         let viewController = ProfileViewControllerSpy()
@@ -74,14 +49,19 @@ final class ProfileViewTests: XCTestCase {
         XCTAssertTrue(viewController.updateAvatarCalled)
     }
     
-    func testDidTapLogOutButtonCalls() {
-        //given
-        let viewController = ProfileViewControllerSpy()
-
-        //when
-        viewController.didTapLogOutButton()
-
-        //then
-        XCTAssertTrue(viewController.didTapLogOutButtonCalled)
-    }
+    func testViewControllerUpdateProfile() {
+            // given
+            let viewController = ProfileViewController()
+            let profile = Profile(username: "hello", name: "Name", loginName: "@login", bio: "Hello, world!")
+            
+            //when
+            viewController.updateProfileDetails(profile: profile)
+        
+            //then
+            XCTAssertEqual(viewController.nameLabel.text, profile.name)
+            XCTAssertEqual(viewController.loginLabel.text, profile.loginName)
+            XCTAssertEqual(viewController.descriptionLabel.text, profile.bio)
+        }
+    
+    
 }

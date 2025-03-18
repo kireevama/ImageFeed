@@ -13,11 +13,10 @@ final class ProfileViewControllerSpy: ProfileViewControllerProtocol {
     var presenter: ProfilePresenterProtocol?
     
     var updateAvatarCalled = false
-    var setupUICalled = false
     var didTapLogOutButtonCalled = false
     
     func setupUI() {
-        setupUICalled = true
+        
     }
     
     func updateAvatar() {

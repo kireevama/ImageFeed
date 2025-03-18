@@ -21,9 +21,9 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
     private let profileService = ProfileService.shared
     
     private let imageView = UIImageView()
-    private let nameLabel = UILabel()
-    private let loginLabel = UILabel()
-    private let descriptionLabel = UILabel()
+    let nameLabel = UILabel()
+    let loginLabel = UILabel()
+    let descriptionLabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
