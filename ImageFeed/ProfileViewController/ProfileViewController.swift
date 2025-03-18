@@ -91,6 +91,8 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
         logOutButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(logOutButton)
         
+        logOutButton.accessibilityIdentifier = "logOutButton"
+        
         NSLayoutConstraint.activate([
             logOutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
             logOutButton.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),

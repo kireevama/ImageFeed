@@ -28,5 +28,4 @@ final class ProfilePresenterSpy: ProfilePresenterProtocol {
         logOutCalled = true
     }
     
-    
 }

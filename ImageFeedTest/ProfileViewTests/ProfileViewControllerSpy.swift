@@ -28,5 +28,4 @@ final class ProfileViewControllerSpy: ProfileViewControllerProtocol {
         didTapLogOutButtonCalled = true
     }
     
-    
 }
