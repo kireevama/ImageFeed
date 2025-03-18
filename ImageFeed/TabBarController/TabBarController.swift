@@ -11,7 +11,6 @@ final class TabBarController: UITabBarController {
     override func awakeFromNib() {
         super.awakeFromNib()
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
-//        let imagesListViewController = storyboard.instantiateViewController(withIdentifier: "ImagesListViewController")
         
         guard let imagesListViewController = storyboard.instantiateViewController(withIdentifier: "ImagesListViewController") as? ImagesListViewController else {
             assertionFailure("Failed load ImagesListViewController")
@@ -29,6 +28,9 @@ final class TabBarController: UITabBarController {
         )
         
         let profileViewController = ProfileViewController()
+        let profilePresenter = ProfilePresenter()
+        profileViewController.presenter = profilePresenter
+        profilePresenter.view = profileViewController
         profileViewController.tabBarItem = UITabBarItem(
             title: "",
             image: UIImage(named: "profile_active"),
