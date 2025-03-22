@@ -20,7 +20,7 @@ final class WebViewPresenterSpy: WebViewPresenterProtocol {
 
     }
     
-    func code(from url: URL) -> String? {
+    func getCode(from url: URL) -> String? {
         return nil
     }
     

@@ -37,6 +37,7 @@ final class WebViewViewController: UIViewController, WebViewViewControllerProtoc
         webView.navigationDelegate = self
         
         presenter?.viewDidLoad()
+        webView.accessibilityIdentifier = accessibilityIdentifiers.authWebView
     }
     
     func setProgressValue(_ newValue: Float) {
@@ -69,7 +70,7 @@ extension WebViewViewController: WKNavigationDelegate { // Навигацион�
     
     private func code(from navigationAction: WKNavigationAction) -> String? {
         if let url = navigationAction.request.url {
-            return presenter?.code(from: url)
+            return presenter?.getCode(from: url)
         }
         return nil
     }

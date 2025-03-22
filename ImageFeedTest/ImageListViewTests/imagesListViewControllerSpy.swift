@@ -5,8 +5,6 @@
 //  Created by Marina Kireeva on 19.03.2025.
 //
 
-import Foundation
-
 import ImageFeed
 import Foundation
 

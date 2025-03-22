@@ -7,7 +7,6 @@
 
 import ImageFeed
 import Foundation
-import UIKit
 
 final class ProfileViewControllerSpy: ProfileViewControllerProtocol {
     var presenter: ProfilePresenterProtocol?

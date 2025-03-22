@@ -30,10 +30,10 @@ final class ProfileViewTests: XCTestCase {
         let presenter = ProfilePresenterSpy()
         viewController.presenter = presenter
         presenter.view = viewController
-
+        
         //when
         presenter.logOut()
-
+        
         //then
         XCTAssertTrue(presenter.logOutCalled)
     }
@@ -41,27 +41,27 @@ final class ProfileViewTests: XCTestCase {
     func testUpdateAvatarCalls() {
         //given
         let viewController = ProfileViewControllerSpy()
-
+        
         //when
         viewController.updateAvatar()
-
+        
         //then
         XCTAssertTrue(viewController.updateAvatarCalled)
     }
     
     func testViewControllerUpdateProfile() {
-            // given
-            let viewController = ProfileViewController()
-            let profile = Profile(username: "hello", name: "Name", loginName: "@login", bio: "Hello, world!")
-            
-            //when
-            viewController.updateProfileDetails(profile: profile)
+        // given
+        let viewController = ProfileViewController()
+        let profile = Profile(username: "hello", name: "Name", loginName: "@login", bio: "Hello, world!")
         
-            //then
-            XCTAssertEqual(viewController.nameLabel.text, profile.name)
-            XCTAssertEqual(viewController.loginLabel.text, profile.loginName)
-            XCTAssertEqual(viewController.descriptionLabel.text, profile.bio)
-        }
+        //when
+        viewController.updateProfileDetails(profile: profile)
+        
+        //then
+        XCTAssertEqual(viewController.nameLabel.text, profile.name)
+        XCTAssertEqual(viewController.loginLabel.text, profile.loginName)
+        XCTAssertEqual(viewController.descriptionLabel.text, profile.bio)
+    }
     
     
 }

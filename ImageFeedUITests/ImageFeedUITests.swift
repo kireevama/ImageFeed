@@ -10,6 +10,13 @@ import XCTest
 final class ImageFeedUITests: XCTestCase {
     private let app = XCUIApplication() // переменная приложения
     
+    private enum userDataForTests {
+        static let email = ""
+        static let password = ""
+        static let name = ""
+        static let login = ""
+    }
+    
     override func setUpWithError() throws {
         continueAfterFailure = false // настройка выполнения тестов, которая прекратит выполнения тестов, если в тесте что-то пошло не так
         
@@ -21,21 +28,25 @@ final class ImageFeedUITests: XCTestCase {
         app.buttons["Authenticate"].tap()
         
         //Подождать, пока экран авторизации открывается и загружается
-        let webView = app.webViews["UnsplashWebView"]
-        sleep(8)
-        
+        let webView = app.webViews["AuthWebView"]
+        XCTAssertTrue(webView.waitForExistence(timeout: 8))
+
         // Ввести данные в форму
         let loginTextField = webView.descendants(matching: .textField).element
-        sleep(5)
+        XCTAssertTrue(loginTextField.waitForExistence(timeout: 5))
         loginTextField.tap()
-        loginTextField.typeText("your e-mail")
-        
-        let passwordTextField = webView.descendants(matching: .textField).element
-        sleep(5)
-        passwordTextField.tap()
-        passwordTextField.typeText("your password")
+        loginTextField.typeText(userDataForTests.email)
         sleep(2)
-        webView.swipeUp() // скроет клавиатуру после ввода текста
+        
+        let toolbar = app.toolbars["Toolbar"]
+        let nextButton = toolbar.buttons["Next"]
+        nextButton.tap()
+        
+        let passwordTextField = webView.descendants(matching: .secureTextField).element
+        XCTAssertTrue(passwordTextField.waitForExistence(timeout: 5))
+        passwordTextField.tap()
+        passwordTextField.typeText(userDataForTests.password)
+        sleep(2)
 
         // Нажать кнопку логина
         webView.buttons["Login"].tap()
@@ -50,6 +61,7 @@ final class ImageFeedUITests: XCTestCase {
     
     func testFeed() throws {
         // Подождать, пока открывается и загружается экран ленты
+        sleep(5)
         let tablesQuery = app.tables
         let cell = tablesQuery.children(matching: .cell).element(boundBy: 0)
         
@@ -66,7 +78,7 @@ final class ImageFeedUITests: XCTestCase {
         // Нажать на верхнюю ячейку
         cellToLike.tap()
         // Подождать, пока картинка открывается на весь экран
-        sleep(3)
+        sleep(5)
         
         // Зум картинки
         let image = app.scrollViews.images.element(boundBy: 0)
@@ -86,8 +98,8 @@ final class ImageFeedUITests: XCTestCase {
         app.tabBars.buttons.element(boundBy: 1).tap()
 
         // Проверить, что на нём отображаются ваши персональные данные
-        XCTAssertTrue(app.staticTexts["your name"].exists)
-        XCTAssertTrue(app.staticTexts["your login"].exists)
+        XCTAssertTrue(app.staticTexts[userDataForTests.name].exists)
+        XCTAssertTrue(app.staticTexts[userDataForTests.login].exists)
         
         // Нажать кнопку логаута
         app.buttons["logOutButton"].tap()
@@ -96,8 +108,8 @@ final class ImageFeedUITests: XCTestCase {
         app.alerts["Пока, пока!"].scrollViews.otherElements.buttons["Да"].tap()
         
         // Проверить, что открылся экран авторизации
-        let authView = app.webViews["AuthView"]
-        XCTAssertTrue(authView.waitForExistence(timeout: 5))
+        let webView = app.buttons["Войти"]
+        XCTAssertTrue(webView.waitForExistence(timeout: 8))
     }
     
 }

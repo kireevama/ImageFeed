@@ -93,7 +93,6 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ktZ-G5-kE7"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <accessibility key="accessibilityConfiguration" identifier="UnsplashWebView"/>
                         <constraints>
                             <constraint firstItem="KFj-K9-JEK" firstAttribute="leading" secondItem="ktZ-G5-kE7" secondAttribute="leading" id="3NG-yP-zlz"/>
                             <constraint firstAttribute="bottom" secondItem="q6s-fV-IXs" secondAttribute="bottom" constant="34" id="7vQ-bh-jsb"/>

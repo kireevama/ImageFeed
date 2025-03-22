@@ -91,7 +91,7 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
         logOutButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(logOutButton)
         
-        logOutButton.accessibilityIdentifier = "logOutButton"
+        logOutButton.accessibilityIdentifier = accessibilityIdentifiers.logOutButton
         
         NSLayoutConstraint.activate([
             logOutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
@@ -125,7 +125,7 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
         let alert = UIAlertController(title: "Пока, пока!", message: "Уверены что хотите выйти?", preferredStyle: .alert)
         let actionYes = UIAlertAction(title: "Да", style: .default) { [weak self] _ in
             self?.presenter?.logOut()
-            self?.swichToSplashViewController()
+            self?.switchToSplashViewController()
         }
         
         let actionNo = UIAlertAction(title: "Нет", style: .cancel) { [weak self] _ in
@@ -137,7 +137,7 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
         present(alert, animated: true)
     }
     
-    func swichToSplashViewController() {
+    func switchToSplashViewController() {
         DispatchQueue.main.async {
             guard let window = UIApplication.shared.windows.first else { return }
             window.rootViewController = SplashViewController()
