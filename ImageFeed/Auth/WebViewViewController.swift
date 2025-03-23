@@ -37,7 +37,7 @@ final class WebViewViewController: UIViewController, WebViewViewControllerProtoc
         webView.navigationDelegate = self
         
         presenter?.viewDidLoad()
-        webView.accessibilityIdentifier = accessibilityIdentifiers.authWebView
+        webView.accessibilityIdentifier = AccessibilityIdentifiers.authWebView
     }
     
     func setProgressValue(_ newValue: Float) {

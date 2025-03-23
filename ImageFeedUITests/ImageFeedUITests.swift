@@ -10,7 +10,7 @@ import XCTest
 final class ImageFeedUITests: XCTestCase {
     private let app = XCUIApplication() // переменная приложения
     
-    private enum userDataForTests {
+    private enum UserDataForTests {
         static let email = ""
         static let password = ""
         static let name = ""
@@ -25,17 +25,17 @@ final class ImageFeedUITests: XCTestCase {
     
     func testAuth() throws {
         // Нажать кнопку авторизации
-        app.buttons["Authenticate"].tap()
+        app.buttons[AccessibilityIdentifiers.authButton].tap()
         
         //Подождать, пока экран авторизации открывается и загружается
-        let webView = app.webViews["AuthWebView"]
+        let webView = app.webViews[AccessibilityIdentifiers.authWebView]
         XCTAssertTrue(webView.waitForExistence(timeout: 8))
 
         // Ввести данные в форму
         let loginTextField = webView.descendants(matching: .textField).element
         XCTAssertTrue(loginTextField.waitForExistence(timeout: 5))
         loginTextField.tap()
-        loginTextField.typeText(userDataForTests.email)
+        loginTextField.typeText(UserDataForTests.email)
         sleep(2)
         
         let toolbar = app.toolbars["Toolbar"]
@@ -45,7 +45,7 @@ final class ImageFeedUITests: XCTestCase {
         let passwordTextField = webView.descendants(matching: .secureTextField).element
         XCTAssertTrue(passwordTextField.waitForExistence(timeout: 5))
         passwordTextField.tap()
-        passwordTextField.typeText(userDataForTests.password)
+        passwordTextField.typeText(UserDataForTests.password)
         sleep(2)
 
         // Нажать кнопку логина
@@ -71,8 +71,8 @@ final class ImageFeedUITests: XCTestCase {
         
         // Поставить и отменить лайк в ячейке верхней картинки
         let cellToLike = tablesQuery.children(matching: .cell).element(boundBy: 1)
-        cellToLike.buttons["LikeButton"].tap()
-        cellToLike.buttons["LikeButton"].tap()
+        cellToLike.buttons[AccessibilityIdentifiers.likeButton].tap()
+        cellToLike.buttons[AccessibilityIdentifiers.likeButton].tap()
         XCTAssertTrue(cell.waitForExistence(timeout: 2))
         
         // Нажать на верхнюю ячейку
@@ -86,7 +86,7 @@ final class ImageFeedUITests: XCTestCase {
         image.pinch(withScale: 0.5, velocity: -1)
         
         // Вернуться на экран ленты
-        let navBackButton = app.buttons["navBackButton"]
+        let navBackButton = app.buttons[AccessibilityIdentifiers.navBackButton]
         navBackButton.tap()
     }
     
@@ -98,11 +98,11 @@ final class ImageFeedUITests: XCTestCase {
         app.tabBars.buttons.element(boundBy: 1).tap()
 
         // Проверить, что на нём отображаются ваши персональные данные
-        XCTAssertTrue(app.staticTexts[userDataForTests.name].exists)
-        XCTAssertTrue(app.staticTexts[userDataForTests.login].exists)
+        XCTAssertTrue(app.staticTexts[UserDataForTests.name].exists)
+        XCTAssertTrue(app.staticTexts[UserDataForTests.login].exists)
         
         // Нажать кнопку логаута
-        app.buttons["logOutButton"].tap()
+        app.buttons[AccessibilityIdentifiers.logOutButton].tap()
         
         // Проверить, что появился алерт
         app.alerts["Пока, пока!"].scrollViews.otherElements.buttons["Да"].tap()
