@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct Photo { // Структура для UI части
+public struct Photo { // Структура для UI части
     let id: String
     let size: CGSize
     let createdAt: Date?
     let welcomeDescription: String?
     let thumbImageURL: String
     let largeImageURL: String
-    let isLiked: Bool
+    var isLiked: Bool
     
     private static let dateFormatter: ISO8601DateFormatter = {
        ISO8601DateFormatter()

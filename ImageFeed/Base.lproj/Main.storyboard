@@ -27,6 +27,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iKv-CC-nLs">
                                 <rect key="frame" x="16" y="724" width="382" height="48"/>
                                 <color key="backgroundColor" name="YP White"/>
+                                <accessibility key="accessibilityConfiguration" identifier="Authenticate"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="I8K-gh-RLH"/>
                                 </constraints>
@@ -55,6 +56,7 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="CA1-tH-izH"/>
                         <color key="backgroundColor" name="YP Black"/>
+                        <accessibility key="accessibilityConfiguration" identifier="AuthView"/>
                         <constraints>
                             <constraint firstItem="CA1-tH-izH" firstAttribute="trailing" secondItem="iKv-CC-nLs" secondAttribute="trailing" constant="16" id="4e4-Vz-f6D"/>
                             <constraint firstItem="jf1-3k-zRJ" firstAttribute="centerY" secondItem="X9e-M9-z53" secondAttribute="centerY" id="5ev-BY-nXV"/>
@@ -72,7 +74,7 @@
         <!--Web View View Controller-->
         <scene sceneID="pJQ-oy-FCc">
             <objects>
-                <viewController id="TlF-tR-9n4" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WebViewViewController" id="TlF-tR-9n4" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nII-5t-voB">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -159,6 +161,7 @@
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="whZ-te-5Er">
                                                     <rect key="frame" x="354" y="4" width="44" height="44"/>
+                                                    <accessibility key="accessibilityConfiguration" identifier="LikeButton"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="44" id="MLa-le-zNe"/>
                                                         <constraint firstAttribute="width" constant="44" id="O2M-T4-43t"/>
@@ -208,6 +211,7 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="YP Black"/>
+                        <accessibility key="accessibilityConfiguration" identifier="TableView"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="8Tx-kT-i1d" secondAttribute="bottom" id="52m-Lo-fhK"/>
                             <constraint firstAttribute="trailing" secondItem="8Tx-kT-i1d" secondAttribute="trailing" id="94n-J4-0w1"/>
@@ -249,6 +253,7 @@
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ABv-Ja-yRX" userLabel="ReturnButton">
                                 <rect key="frame" x="9" y="53" width="24" height="24"/>
+                                <accessibility key="accessibilityConfiguration" identifier="navBackButton"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="3OO-kn-jBY"/>
                                     <constraint firstAttribute="width" constant="24" id="Vde-WA-dCM"/>
